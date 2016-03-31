@@ -14,3 +14,9 @@ This example is slightly re-factored
 Async actions through middleware:
 http://danmaz74.me/2015/08/19/from-flux-to-redux-async-actions-the-easy-way/
 
+Read up on the webpack dev server:
+https://webpack.github.io/docs/webpack-dev-server.html
+
+Compiles your webpack.config.js into memory and serves from there
+Supports hot reload
+
