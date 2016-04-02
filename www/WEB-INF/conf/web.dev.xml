@@ -1,0 +1,21 @@
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd"
+[ 
+   <!ENTITY todos SYSTEM "./conf/kanban.xml">
+]
+>
+<web-app>
+        &todos;
+
+	<context-param>
+		<param-name>AppName</param-name>
+		<param-value>KanBan Redux (TodosMVC.redux)</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>TemplatePath</param-name>
+		<param-value>/WEB-INF/templates</param-value>
+	</context-param>
+	
+	
+
+</web-app>

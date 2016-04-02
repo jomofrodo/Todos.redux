@@ -57,7 +57,7 @@ export function addTodo(text) {
     // now that the Store has been notified of the new todo item, we 
     // should also notify our server - we'll use here ES6 fetch 
     // function to post the data
-    fetch('/add_todo', {
+    fetch('/todos/addTodo', {
       method: 'post',
       body: JSON.stringify({
         text

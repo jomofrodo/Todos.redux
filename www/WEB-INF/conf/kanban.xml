@@ -1,0 +1,14 @@
+	<servlet>
+		<servlet-name>TodosRedux</servlet-name>
+		<servlet-class>com.netazoic.todos.TodosRedux</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TodosRedux</servlet-name>
+		<url-pattern>/todos</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TodosRedux</servlet-name>
+		<url-pattern>/todos/*</url-pattern>
+	</servlet-mapping>
+

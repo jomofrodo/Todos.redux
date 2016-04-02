@@ -1,0 +1,3 @@
+[submodule "ent"]
+	path = ent
+	url = git@github.com:Netazoic/Ent.git
