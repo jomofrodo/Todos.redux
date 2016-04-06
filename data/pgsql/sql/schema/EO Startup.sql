@@ -6,12 +6,13 @@ SELECT * FROM do_do;
 SELECT * FROM do_class;
 */
 --rollback transaction;
+abort;
 begin transaction;
 -- commit;
 -- abort;
 
 DELETE FROM do_do;
-DELETE FROM do;
+DELETE FROM public.do;
 DELETE FROM do_class;
 DELETE FROM do_relation;
 
@@ -24,12 +25,12 @@ VALUES('TAG','TAG','Tag DO','tags','id','uuid');
 
 
 --do_relation
-INSERT INTO [do_relation] ([drcode], [drdesc]) VALUES ('PARENT', 'Parent');
-INSERT INTO [do_relation] ([drcode], [drdesc]) VALUES ('SELF', 'Self pointer');
-INSERT INTO [do_relation] ([drcode], [drdesc]) VALUES ('CHILD', 'Child pointer');
+INSERT INTO do_relation ( drcode, drdesc) VALUES ('PARENT', 'Parent');
+INSERT INTO  do_relation (drcode, drdesc) VALUES ('SELF', 'Self pointer');
+INSERT INTO  do_relation ( drcode, drdesc) VALUES ('CHILD', 'Child pointer');
 
 -- Start of the EO
-INSERT INTO do VALUES(0,'EO',0,0);
+INSERT INTO public.do VALUES(0,'EO',0,0);
 
 
 -- Start of GO  
