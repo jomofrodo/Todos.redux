@@ -7,3 +7,5 @@ www/WEB-INF/classes
 docs/alfoni/
 www/WEB-INF/web.xml
 .tomcatplugin
+/target
+.settings

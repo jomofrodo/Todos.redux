@@ -1,3 +1,6 @@
-[submodule "ent"]
-	path = ent
+[submodule "java/Todos"]
+	path = java/Todos
+	url = git@github.com:Netazoic/Todos.git
+[submodule "java/ent"]
+	path = java/ent
 	url = git@github.com:Netazoic/Ent.git
