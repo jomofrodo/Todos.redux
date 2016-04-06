@@ -6,3 +6,4 @@ npm-debug.log
 www/WEB-INF/classes
 docs/alfoni/
 www/WEB-INF/web.xml
+.tomcatplugin

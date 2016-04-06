@@ -20,3 +20,8 @@ https://webpack.github.io/docs/webpack-dev-server.html
 Compiles your webpack.config.js into memory and serves from there
 Supports hot reload
 
+
+
+### To Install
+# npm -i       -- install everything referenced in package.json
+# npm start    -- runs 'node server.js'
