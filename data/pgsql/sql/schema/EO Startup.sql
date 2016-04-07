@@ -11,6 +11,9 @@ begin transaction;
 -- commit;
 -- abort;
 
+
+SET CONSTRAINTS ALL DEFERRED;
+
 DELETE FROM do_do;
 DELETE FROM public.do;
 DELETE FROM do_class;
@@ -34,21 +37,21 @@ INSERT INTO public.do VALUES(0,'EO',0,0);
 
 
 -- Start of GO  
-INSERT INTO do (doid,dccode,dorecid,dorecuuid) VALUES(1,'EO',0,0);
+INSERT INTO public.do (doid,dccode,dorecid,dorecuuid) VALUES(1,'EO',0,0);
 
 -- Start of JO
-INSERT INTO do (doid,dccode,dorecid,dorecuuid) VALUES(2,'DO',0,0);
+INSERT INTO public.do (doid,dccode,dorecid,dorecuuid) VALUES(2,'DO',0,0);
 
 
 
 
-INSERT INTO do_do (doID,doRelID,drCode,ddSort,ddLeft,ddRight) VALUES(0,0,'SELF',null,null,null);
-INSERT INTO do_do (doID,doRelID,drCode,ddSort,ddLeft,ddRight) VALUES(0,1,'PARENT',null,null,null);
-INSERT INTO do_do (doID,doRelID,drCode,ddSort,ddLeft,ddRight) VALUES(0,2,'PARENT',null,null,null);
-INSERT INTO do_do (doID,doRelID,drCode,ddSort,ddLeft,ddRight) VALUES(1,0,'SELF',null,null,null);
-INSERT INTO do_do (doID,doRelID,drCode,ddSort,ddLeft,ddRight) VALUES(2,0,'SELF',null,null,null);
-INSERT INTO do_do (doID,doRelID,drCode,ddSort,ddLeft,ddRight) VALUES(1,0,'CHILD',null,null,null);
-INSERT INTO do_do (doID,doRelID,drCode,ddSort,ddLeft,ddRight) VALUES(2,0,'CHILD',null,null,null);
+INSERT INTO do_do (doID,relDoID,drCode,ddSort,ddLeft,ddRight) VALUES(0,0,'SELF',null,null,null);
+INSERT INTO do_do (doID,relDoID,drCode,ddSort,ddLeft,ddRight) VALUES(0,1,'PARENT',null,null,null);
+INSERT INTO do_do (doID,relDoID,drCode,ddSort,ddLeft,ddRight) VALUES(0,2,'PARENT',null,null,null);
+INSERT INTO do_do (doID,relDoID,drCode,ddSort,ddLeft,ddRight) VALUES(1,0,'SELF',null,null,null);
+INSERT INTO do_do (doID,relDoID,drCode,ddSort,ddLeft,ddRight) VALUES(2,0,'SELF',null,null,null);
+INSERT INTO do_do (doID,relDoID,drCode,ddSort,ddLeft,ddRight) VALUES(1,0,'CHILD',null,null,null);
+INSERT INTO do_do (doID,relDoID,drCode,ddSort,ddLeft,ddRight) VALUES(2,0,'CHILD',null,null,null);
 
 commit transaction;
 

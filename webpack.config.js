@@ -5,6 +5,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
+  hostname: 'kanband',
   entry: {
 	    app: ['./app'],
 	    //webpack_client: 'webpack-hot-middleware/client',
@@ -18,7 +19,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'build'),
     filename: '[name].js',
-    publicPath: '/static/'
+    publicPath: '/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

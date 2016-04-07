@@ -10,8 +10,8 @@
   -- commit;
   
   SET CONSTRAINTS ALL DEFERRED;
-    DROP TRIGGER IF EXISTS tr_do_after_insert ON public."do";
-    DROP TRIGGER IF EXISTS tr_do_before_delete ON public."do";
+    --DROP TRIGGER IF EXISTS tr_do_after_insert ON public."do";
+    --DROP TRIGGER IF EXISTS tr_do_before_delete ON public."do";
     
     DROP TABLE IF EXISTS public.do_do;
     DROP TABLE IF EXISTS public.do_relation;
@@ -119,8 +119,9 @@ BEGIN
 END;
 $$;
 
-CREATE TRIGGER tr_do_after_insert AFTER INSERT ON "do" FOR EACH ROW EXECUTE PROCEDURE trf_create_do_do_0();
-CREATE TRIGGER tr_do_after_delete AFTER DELETE ON "do" FOR EACH ROW EXECUTE PROCEDURE trf_delete_do_dos();
+-- Don't hook up triggers until after loading EO records 0 and 1
+--CREATE TRIGGER tr_do_after_insert AFTER INSERT ON "do" FOR EACH ROW EXECUTE PROCEDURE trf_create_do_do_0();
+--CREATE TRIGGER tr_do_after_delete AFTER DELETE ON "do" FOR EACH ROW EXECUTE PROCEDURE trf_delete_do_dos();
 --CREATE TRIGGER tr_posts_after_insert AFTER INSERT ON "posts" FOR EACH STATEMENT EXECUTE PROCEDURE trf_create_post_do();
 
 commit;

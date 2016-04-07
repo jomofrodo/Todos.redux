@@ -54,10 +54,18 @@ export function addTodo(text) {
     // action creator
     dispatch(addTodoOptimistic(text));
 
+    var fLoad = function(data,textStatus,jqXHR){
+	//do something here
+	console.debug(textStatus);
+    };
+    $.post('/todos/cdo',JSON.stringify({text}),fLoad)
+
+    
     // now that the Store has been notified of the new todo item, we 
     // should also notify our server - we'll use here ES6 fetch 
     // function to post the data
-    fetch('/todos/addTodo', {
+    /*
+    fetch('/todos/cdo', {
       method: 'post',
       body: JSON.stringify({
         text
@@ -70,6 +78,7 @@ export function addTodo(text) {
     // Error: handle it the way you like, undoing the optimistic update,
     //  showing a "out of sync" message, etc.
     });
+    */
   // what you return here gets returned by the dispatch function that 
   // used this action creator
   return null; 
