@@ -9,3 +9,4 @@ www/WEB-INF/web.xml
 .tomcatplugin
 /target
 .settings
+www/WEB-INF/lib
