@@ -1,4 +1,4 @@
-package com.netazoic.todos;
+package com.netazoic.tdrdx;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,20 +11,32 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.netazoic.ent.NetRoute;
-import com.netazoic.ent.ServENT;
+import com.netazoic.todos.Todos;
 
 public class TodosRedux extends Todos {
 
 	NetRoute homeHdlr = new HomeHdlr();
 	
+	//creating enum HOME TemPLate?
+	public  enum TDRDX_TPL{
+		Home("README.md","Todos/Redux Read Me"),
+		;
+		//Why store template path and description into variables?
+		String tplPath;
+		String desc;
+		TDRDX_TPL(String t, String d){
+			tplPath = t;
+			desc = d;
+		}
+	}
 	
-	private enum TODOS_ROUTE{
+	private enum TDRDX_ROUTE{
 		//route is the second segment of the url, e.g., http://someserver/route
 		home("home");
 	
 		String route;
 		
-		TODOS_ROUTE(String r){
+		TDRDX_ROUTE(String r){
 			route  = r;
 		}
 	}
@@ -32,8 +44,8 @@ public class TodosRedux extends Todos {
 	@Override
 	public void init(ServletConfig config) throws javax.servlet.ServletException {
 			super.init(config);
-			defaultRoute = TODOS_ROUTE.home.route;
-			routeMap.put(TODOS_ROUTE.home.route, homeHdlr);
+			defaultRoute = TDRDX_ROUTE.home.route;
+			routeMap.put(TDRDX_ROUTE.home.route, homeHdlr);
 	}
 		
 	public class HomeHdlr extends RouteEO{
@@ -42,8 +54,9 @@ public class TodosRedux extends Todos {
 			public void routeAction(HttpServletRequest request,
 				HttpServletResponse response, Connection con, HttpSession session)
 							throws IOException, Exception {
-				String hello = "Hello World";
-				response.getWriter().append(hello);
+				String tPath = TDRDX_TPL.Home.tplPath;
+				Map<String,Object> map = new HashMap<String,Object>();
+				parseOutput(map, tPath, response.getWriter());
 			}	
 	}
 	

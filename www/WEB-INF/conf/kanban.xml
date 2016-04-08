@@ -1,6 +1,6 @@
 	<servlet>
 		<servlet-name>TodosRedux</servlet-name>
-		<servlet-class>com.netazoic.todos.TodosRedux</servlet-class>
+		<servlet-class>com.netazoic.tdrdx.TodosRedux</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>

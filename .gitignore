@@ -10,3 +10,4 @@ www/WEB-INF/web.xml
 /target
 .settings
 www/WEB-INF/lib
+java/build/lib
