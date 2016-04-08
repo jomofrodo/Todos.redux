@@ -1,7 +1,7 @@
 {
-  "name": "Netazoic-redux-todomvc",
+  "name": "Todos-redux",
   "version": "0.0.0",
-  "description": "Netazoic Redux TodoMVC example",
+  "description": "Netazoic Todos/Redux based on TodoMVC",
   "scripts": {
     "start": "node server.js",
     "test": "cross-env NODE_ENV=test mocha --recursive --compilers js:babel-register --require ./test/setup.js",
@@ -13,11 +13,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/netazoic/todomvc-redux.git"
+    "url": "git@github.com:jomofrodo/Todos.redux.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/netazoic/todomvc-redux/issues"
+    "url": "https://github.com/jomofrodo/Todos.redux/issues"
   },
   "homepage": "http://netazoic.com",
   "dependencies": {
