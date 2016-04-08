@@ -1,0 +1,18 @@
+<ivy-module version="2.0">
+        <info organisation="com.netazoic" module="Todos.redux"/>
+        <configurations>
+            <conf name="prod"/>
+            <conf name="dev" extends="prod"/> 
+        </configurations>
+        <dependencies>
+             <dependency org="org.apache.commons" name="commons-lang3" rev="3.4"/>
+             <dependency org="commons-io" name="commons-io" rev="2.4"/>
+             <dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.1.4"/>
+             <dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.1.4"/>
+             <dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.1.4"/>
+
+             <dependency org="joda-time" name="joda-time" rev="2.9.1"/>
+             <dependency org="org.postgresql" name="postgresql" rev="9.4.1208.jre7"/>
+             
+        </dependencies>
+</ivy-module>
