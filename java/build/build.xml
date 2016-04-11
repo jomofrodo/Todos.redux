@@ -1,18 +1,15 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="Todos.redux" default="resolve">
     
     <property name="lib.dir" value="../../www/WEB-INF/lib" />
-<<<<<<< HEAD
 	<property name="build.lib" value="./lib"/>
-=======
 	
->>>>>>> a3f341e177b9dbebfbb86ac7f085c057f03c77d5
     <!-- ================================= 
           target: resolve              
          ================================= -->
     <target name="resolve" description="--> retrieve dependencies with ivy">
         <ivy:resolve />
     </target>
-<<<<<<< HEAD
+
     <!-- ================================= 
           target: retrieve
           
@@ -20,9 +17,10 @@
           Copy supporting src and javadoc archives into WEB-INF/lib/javadoc and src
           Copy all needed jars to ~build/lib  for distribution purposes              
          ================================= -->    
-    <target name="retrieve" description="--> retrieve dependencies with ivy" depends="clean">
+    <target name="retrieve" description="retrieve dependencies with ivy" depends="clean">
         <ivy:retrieve type="source,javadoc" conf="dev" pattern="${lib.dir}/[type]/[artifact]-[type]-[revision].[ext]"/>
-        <ivy:retrieve type="jar" conf="dev" pattern="${lib.dir}/[artifact]-[revision].[ext]"/>
+    	<!-- <ivy:retrieve conf="dev" pattern="${lib.dir}/[type]/[artifact]-[revision].[ext]"/> -->
+        <ivy:retrieve type="jar,bundle" conf="dev" pattern="${lib.dir}/[artifact]-[revision].[ext]"/>
         <ivy:retrieve type="jar" conf="prod" pattern="${build.lib}/[conf]/[artifact]-[revision].[ext]"/>
          
     </target>
@@ -51,12 +49,7 @@
 	    <mkdir dir="${user.home}/.ant/lib"/>
 	    <get dest="${user.home}/.ant/lib/ivy.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.2.0/ivy-2.2.0.jar"/>
 	</target>
-=======
+
     
-    <target name="retrieve" description="--> retrieve dependencies with ivy">
-        <ivy:retrieve type="jar,source,doc" conf="dev" pattern="${lib.dir}/[conf]/[artifact]-[type]-[revision].[ext]"/>
-        <ivy:retrieve type="jar" conf="prod" pattern="${lib.dir}/[conf]/[artifact]-[type]-[revision].[ext]"/>
-         
-    </target>
->>>>>>> a3f341e177b9dbebfbb86ac7f085c057f03c77d5
+
 </project>

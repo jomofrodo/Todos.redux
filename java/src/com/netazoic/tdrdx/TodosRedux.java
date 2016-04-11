@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.netazoic.ent.NetRoute;
 import com.netazoic.todos.Todos;
+import com.netazoic.util.ParseUtil;
 
 public class TodosRedux extends Todos {
 
@@ -56,7 +57,7 @@ public class TodosRedux extends Todos {
 							throws IOException, Exception {
 				String tPath = TDRDX_TPL.Home.tplPath;
 				Map<String,Object> map = new HashMap<String,Object>();
-				parseOutput(map, tPath, response.getWriter());
+				ParseUtil.parseOutput(map, tPath, response.getWriter());
 			}	
 	}
 	

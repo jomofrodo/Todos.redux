@@ -22,6 +22,11 @@ Async actions through middleware:
 http://danmaz74.me/2015/08/19/from-flux-to-redux-async-actions-the-easy-way/
 https://github.com/reactjs/redux/issues/291
 
+
+Basic Tutorials:
+http://www.jchapron.com/2015/08/14/getting-started-with-redux/
+survivejs kanban app in alt/React and React/Redux
+
 Read up on the webpack dev server:
 https://webpack.github.io/docs/webpack-dev-server.html
 
@@ -39,3 +44,6 @@ Supports hot reload
 Wouldn't it be great if you could keep track of all your notes? All your posts, tweets, blog entries.  All of your todo lists.  Wouldn't it be great if you could organize them into collections by hashtag, keyword, whatever? Wouldn't it be great if you could search through everything all at once?
 
 It would.
+
+
+
