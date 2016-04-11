@@ -13,6 +13,8 @@
 	
 	<context-param>
 		<param-name>TemplatePath</param-name>
+		<!-- Paths are relative to the webroot / or fully specified -->
+		<!-- Separate paths with a ';' (semi-colon) -->
 		<param-value>/;/WEB-INF/templates</param-value>
 	</context-param>
 	

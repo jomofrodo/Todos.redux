@@ -20,6 +20,7 @@ This example is slightly re-factored
 
 Async actions through middleware:
 http://danmaz74.me/2015/08/19/from-flux-to-redux-async-actions-the-easy-way/
+https://github.com/reactjs/redux/issues/291
 
 Read up on the webpack dev server:
 https://webpack.github.io/docs/webpack-dev-server.html

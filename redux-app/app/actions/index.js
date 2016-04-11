@@ -54,11 +54,15 @@ export function addTodo(text) {
     // action creator
     dispatch(addTodoOptimistic(text));
 
+    //TODO: Now we need to know the ID of the newly created todo
+
     var fLoad = function(data,textStatus,jqXHR){
 	//do something here
 	console.debug(textStatus);
     };
-    $.post('/todos/cdo',JSON.stringify({text}),fLoad)
+    let payload = JSON.stringify(text);
+    let data = {pl:payload};
+    $.post('/todos/cdo',data,fLoad)
 
     
     // now that the Store has been notified of the new todo item, we 

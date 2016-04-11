@@ -7,7 +7,9 @@ export default {
       return null;
     }
   },
-  set: function(k, v) {
+  set: function(k, v, st) {
+    debugger;
+    console.debug(st);
     localStorage.setItem(k, JSON.stringify(v));
   }
 };

@@ -12,22 +12,15 @@ import rootReducer from './reducers';
 
 const APP_STORAGE = 'redux_todosMVC';
 
-let initialState = storage.get(APP_STORAGE);
-if(!initialState) initialState = {};
+let initialState = storage.get(APP_STORAGE) || {};
 //one of the following
 let store =  applyMiddleware(thunk)(createStore)(rootReducer,initialState);
 /*
-const store = configureStore(storage.get(APP_STORAGE) || {});
-store.subscribe(() => {
-  if(!storage.get('debug')) {
-    storage.set(APP_STORAGE, store.getState());
-  }
-});
+const store = configureStore(initialState);
 */
-
 store.subscribe(() => {
   if(!storage.get('debug')) {
-    storage.set(APP_STORAGE, store.getState());
+    storage.set(APP_STORAGE, store.getState(), store);
   }
 });
 
