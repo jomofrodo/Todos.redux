@@ -8,8 +8,7 @@ export default {
     }
   },
   set: function(k, v, st) {
-    debugger;
-    console.debug(st);
+    //console.debug(st);
     localStorage.setItem(k, JSON.stringify(v));
   }
 };

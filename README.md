@@ -22,6 +22,8 @@ Async actions through middleware:
 http://danmaz74.me/2015/08/19/from-flux-to-redux-async-actions-the-easy-way/
 https://github.com/reactjs/redux/issues/291
 
+CRUD setup:
+https://github.com/Versent/redux-crud
 
 Basic Tutorials:
 http://www.jchapron.com/2015/08/14/getting-started-with-redux/

@@ -11,3 +11,7 @@ www/WEB-INF/web.xml
 .settings
 www/WEB-INF/lib
 java/build/lib
+/bin/
+/WEB-INF/
+.tern-project
+.cvsignore

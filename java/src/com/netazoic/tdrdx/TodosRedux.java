@@ -57,7 +57,7 @@ public class TodosRedux extends Todos {
 							throws IOException, Exception {
 				String tPath = TDRDX_TPL.Home.tplPath;
 				Map<String,Object> map = new HashMap<String,Object>();
-				ParseUtil.parseOutput(map, tPath, response.getWriter());
+				parseOutput(map, tPath, response);
 			}	
 	}
 	
