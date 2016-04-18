@@ -10,6 +10,15 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
+-- Name: todos; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA todos;
+
+
+ALTER SCHEMA todos OWNER TO postgres;
+
+--
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -23,54 +32,123 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = public, pg_catalog;
+ALTER DATABASE kanbandev SET search_path TO todos,public,pg_catalog;
+SET search_path = todos, public, pg_catalog;
 
+DROP SCHEMA IF EXISTS "todos.bak" CASCADE ;
+ALTER SCHEMA todos RENAME to "todos.bak";
+
+CREATE SCHEMA todos;
 --
--- Name: trf_insert_do(); Type: FUNCTION; Schema: public; Owner: kanban
+-- Name: trf_create_do_do_0(); Type: FUNCTION; Schema: todos; Owner: postgres
 --
 
-CREATE FUNCTION trf_insert_do() RETURNS trigger
+CREATE FUNCTION trf_create_do_do_0() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-  INSERT INTO do_do ( 
-        doID,
-        doRelID,
-        drCode,
-        ddSort 
-    ) 
-    VALUES ( 
-        new.doID,
-        1,
-        'CHILD',
-        new.doID 
-    );
-END;
+    AS $$
+BEGIN
+  INSERT INTO todos.do_do ( 
+        doID,
+        relDoID,
+        drCode,
+        ddSort 
+    ) 
+    VALUES ( 
+        new.doID,
+        1,
+        'CHILD',
+        new.doID 
+    );
+    RETURN new;
+END;
 $$;
 
 
-ALTER FUNCTION public.trf_insert_do() OWNER TO kanban;
+ALTER FUNCTION todos.trf_create_do_do_0() OWNER TO postgres;
+
+--
+-- Name: trf_create_post_do(); Type: FUNCTION; Schema: todos; Owner: postgres
+--
+
+CREATE FUNCTION trf_create_post_do() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    INSERT INTO public.do ( 
+        doid,
+        dorecid,
+        dorecuuid,
+        dccode 
+    ) 
+    SELECT max( doid ) + 1,
+           NEW.id,
+           NEW.uuid,
+           'DO'
+      FROM public.do;
+END;
+$$;
+
+
+ALTER FUNCTION todos.trf_create_post_do() OWNER TO postgres;
+
+--
+-- Name: trf_delete_do_dos(); Type: FUNCTION; Schema: todos; Owner: postgres
+--
+
+CREATE FUNCTION trf_delete_do_dos() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    DELETE
+      FROM todos.do_do
+     WHERE reldoid = old.doid;
+
+    DELETE
+      FROM todos.do_do
+     WHERE doid = old.doid;
+
+     RETURN old;
+END;
+$$;
+
+
+ALTER FUNCTION todos.trf_delete_do_dos() OWNER TO postgres;
+
+--
+-- Name: seqdo; Type: SEQUENCE; Schema: todos; Owner: postgres
+--
+
+CREATE SEQUENCE seqdo
+    START WITH 10000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE todos.seqdo OWNER TO postgres;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: do; Type: TABLE; Schema: public; Owner: kanban; Tablespace: 
+-- Name: do; Type: TABLE; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE "do" (
-    doid numeric(12,0) NOT NULL,
+    doid numeric(12,0) DEFAULT nextval('seqdo'::regclass) NOT NULL,
     dccode character varying(10) DEFAULT 'DO'::character varying,
     dorecid numeric(12,0),
-    dorecuuid character varying(36)
+    dorecuuid character varying(36),
+    dotitle text
 );
 
 
-ALTER TABLE public."do" OWNER TO kanban;
+ALTER TABLE todos."do" OWNER TO postgres;
 
 --
--- Name: do_class; Type: TABLE; Schema: public; Owner: kanban; Tablespace: 
+-- Name: do_class; Type: TABLE; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE do_class (
@@ -84,10 +162,10 @@ CREATE TABLE do_class (
 );
 
 
-ALTER TABLE public.do_class OWNER TO kanban;
+ALTER TABLE todos.do_class OWNER TO postgres;
 
 --
--- Name: do_do; Type: TABLE; Schema: public; Owner: kanban; Tablespace: 
+-- Name: do_do; Type: TABLE; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE do_do (
@@ -100,10 +178,10 @@ CREATE TABLE do_do (
 );
 
 
-ALTER TABLE public.do_do OWNER TO kanban;
+ALTER TABLE todos.do_do OWNER TO postgres;
 
 --
--- Name: do_relation; Type: TABLE; Schema: public; Owner: kanban; Tablespace: 
+-- Name: do_relation; Type: TABLE; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE do_relation (
@@ -112,42 +190,68 @@ CREATE TABLE do_relation (
 );
 
 
-ALTER TABLE public.do_relation OWNER TO kanban;
+ALTER TABLE todos.do_relation OWNER TO postgres;
 
 --
--- Data for Name: do; Type: TABLE DATA; Schema: public; Owner: kanban
+-- Data for Name: do; Type: TABLE DATA; Schema: todos; Owner: postgres
 --
 
-COPY "do" (doid, dccode, dorecid, dorecuuid) FROM stdin;
+COPY "do" (doid, dccode, dorecid, dorecuuid, dotitle) FROM stdin;
+0	EO	0	0	\N
+1	EO	0	0	\N
+2	DO	0	0	\N
+3	DO	0	0	\N
 \.
 
 
 --
--- Data for Name: do_class; Type: TABLE DATA; Schema: public; Owner: kanban
+-- Data for Name: do_class; Type: TABLE DATA; Schema: todos; Owner: postgres
 --
 
 COPY do_class (dccode, dcname, dcdesc, dcdb, dctable, dc_pk_fld, dc_uuid_fld) FROM stdin;
+EO	EO	EO	\N	\N	\N	\N
+DO	DO	Base DO	\N	posts	id	uuid
+TAG	TAG	Tag DO	\N	tags	id	uuid
+SELF	SELF	SELF id	\N	\N	\N	\N
+PARENT	PARENT	Parent id	\N	\N	\N	\N
 \.
 
 
 --
--- Data for Name: do_do; Type: TABLE DATA; Schema: public; Owner: kanban
+-- Data for Name: do_do; Type: TABLE DATA; Schema: todos; Owner: postgres
 --
 
 COPY do_do (doid, reldoid, drcode, ddsort, ddleft, ddright) FROM stdin;
+0	0	SELF	\N	\N	\N
+0	1	PARENT	\N	\N	\N
+0	2	PARENT	\N	\N	\N
+1	0	SELF	\N	\N	\N
+2	0	SELF	\N	\N	\N
+1	0	CHILD	\N	\N	\N
+2	0	CHILD	\N	\N	\N
 \.
 
 
 --
--- Data for Name: do_relation; Type: TABLE DATA; Schema: public; Owner: kanban
+-- Data for Name: do_relation; Type: TABLE DATA; Schema: todos; Owner: postgres
 --
 
 COPY do_relation (drcode, drdesc) FROM stdin;
+PARENT	Parent
+SELF	Self pointer
+CHILD	Child pointer
 \.
 
 
 --
--- Name: do_class_pkey; Type: CONSTRAINT; Schema: public; Owner: kanban; Tablespace: 
+-- Name: seqdo; Type: SEQUENCE SET; Schema: todos; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seqdo', 10002, true);
+
+
+--
+-- Name: do_class_pkey; Type: CONSTRAINT; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY do_class
@@ -155,7 +259,7 @@ ALTER TABLE ONLY do_class
 
 
 --
--- Name: do_do_pkey; Type: CONSTRAINT; Schema: public; Owner: kanban; Tablespace: 
+-- Name: do_do_pkey; Type: CONSTRAINT; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY do_do
@@ -163,7 +267,7 @@ ALTER TABLE ONLY do_do
 
 
 --
--- Name: do_pkey; Type: CONSTRAINT; Schema: public; Owner: kanban; Tablespace: 
+-- Name: do_pkey; Type: CONSTRAINT; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY "do"
@@ -171,7 +275,7 @@ ALTER TABLE ONLY "do"
 
 
 --
--- Name: do_relation_pkey; Type: CONSTRAINT; Schema: public; Owner: kanban; Tablespace: 
+-- Name: do_relation_pkey; Type: CONSTRAINT; Schema: todos; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY do_relation
@@ -179,14 +283,21 @@ ALTER TABLE ONLY do_relation
 
 
 --
--- Name: do_tr_before_insert; Type: TRIGGER; Schema: public; Owner: kanban
+-- Name: do-after-insert; Type: TRIGGER; Schema: todos; Owner: postgres
 --
 
-CREATE TRIGGER do_tr_before_insert BEFORE INSERT ON "do" FOR EACH STATEMENT EXECUTE PROCEDURE trf_insert_do();
+CREATE TRIGGER "do-after-insert" AFTER INSERT ON "do" FOR EACH ROW EXECUTE PROCEDURE trf_create_do_do_0();
 
 
 --
--- Name: do_dccode_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kanban
+-- Name: do-before-delete; Type: TRIGGER; Schema: todos; Owner: postgres
+--
+
+CREATE TRIGGER "do-before-delete" BEFORE DELETE ON "do" FOR EACH ROW EXECUTE PROCEDURE trf_delete_do_dos();
+
+
+--
+-- Name: do_dccode_fkey; Type: FK CONSTRAINT; Schema: todos; Owner: postgres
 --
 
 ALTER TABLE ONLY "do"
@@ -194,7 +305,7 @@ ALTER TABLE ONLY "do"
 
 
 --
--- Name: do_do_doid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kanban
+-- Name: do_do_doid_fkey; Type: FK CONSTRAINT; Schema: todos; Owner: postgres
 --
 
 ALTER TABLE ONLY do_do
@@ -202,7 +313,7 @@ ALTER TABLE ONLY do_do
 
 
 --
--- Name: do_do_drcode_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kanban
+-- Name: do_do_drcode_fkey; Type: FK CONSTRAINT; Schema: todos; Owner: postgres
 --
 
 ALTER TABLE ONLY do_do
@@ -210,7 +321,7 @@ ALTER TABLE ONLY do_do
 
 
 --
--- Name: do_do_reldoid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kanban
+-- Name: do_do_reldoid_fkey; Type: FK CONSTRAINT; Schema: todos; Owner: postgres
 --
 
 ALTER TABLE ONLY do_do

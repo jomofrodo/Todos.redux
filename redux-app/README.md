@@ -77,7 +77,43 @@ These will all be handled by "Thunks"  -- action handlers mediated by the Thunk 
 	Add reducer section for the Kanban actions
 
 
+## Data Structure
 
+Single client-side store, ala Redux conventions
 
+	Store
+			.recs			-- un-ordered list of all records
+				.id -> todo
+					todo
+						.id
+						.uuid
+						.title
+						.desc
+						.tags {tag1,tag2,tag3}
+				
+			.working 	-- working tree, computed from todos according to some start point
+						-- default query is top level todos (starting with todo ID 1)
+						-- tree is computed to two-levels, current plus children
+			.todos		-- list of all relationships
+			.idx[x]  ?? cached versions of high-use sub-trees? idx[1] is default (start at 1).
+
+	calcTree(store,startID,{query}, ){
+		startRec = recs[startID];
+		depth = query.treeDepth(=2);
+		//something something 
+		//This next thing would be O(n) * O(n) for two levels
+		working = recurseForNLevlels(store.recs.filter(todo=>{
+						todo.parents = getParents(todo.id);
+						return todo.parents ?> startID)});
+					)
+
+Store can be fed from async queries using a query API to back-end. Examples
+
+	todosFetchWorking({query})
+		fLoad = (data) => store.working = data;
+	todosFetchIdx({query})
+		fLoad = (data) => 	store.idx[data.startID] = data;
+			
+		{query} = {start_id:id=1, tag_list:{tag_list}, keyword_list:{keywords}, depth:treeDepth=2, max:maxRecs=500}
 
 </body>
