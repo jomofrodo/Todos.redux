@@ -1,0 +1,5 @@
+UPDATE todos.ToDo
+SET tdName = ${tdName},
+tdDesc = ${tdDesc},
+tdComplete = ${tdComplete},
+WHERE todoID = ${todoID}

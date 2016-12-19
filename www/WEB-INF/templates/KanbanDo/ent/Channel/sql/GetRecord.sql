@@ -1,0 +1,1 @@
+SELECT * FROM todos.Channel WHERE channelCode = ${channelCode}

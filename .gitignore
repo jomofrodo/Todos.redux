@@ -2,6 +2,7 @@
 .classpath
 kanban.redux/
 node_modules/
+semantic/
 npm-debug.log
 www/WEB-INF/classes
 docs/alfoni/

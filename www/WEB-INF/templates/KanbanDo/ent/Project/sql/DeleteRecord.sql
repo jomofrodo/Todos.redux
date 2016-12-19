@@ -1,0 +1,1 @@
+DELETE FROM todos.ToDo WHERE todoID = ${todoID}

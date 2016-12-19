@@ -1,0 +1,4 @@
+UPDATE todos.Channel
+SET chName = ${chName},
+chDesc = ${chDesc}
+WHERE channelCode = ${channelCode}

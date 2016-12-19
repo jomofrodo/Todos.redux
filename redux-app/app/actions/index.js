@@ -64,6 +64,7 @@ export function addTodo(text) {
 	// action creator
 	let uid = uuid.v4();
 	dispatch(addTodoOptimistic(text,uid));
+	debugger;
 	//The fLoad will update state todo.id with value from the database.
 	//Maybe we should save the UUID in a uuid field?
 	var fLoad = function(data,textStatus,jqXHR){
