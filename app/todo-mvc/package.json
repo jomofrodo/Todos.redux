@@ -23,8 +23,8 @@
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "classnames": "^2.1.2",
-    "github-markdown-css": "^2.2.1",
-    "lodash": "^4.10.0",
+    "github-markdown-css": "^2.4.1",
+    "lodash": "^4.17.3",
     "node-uuid": "^1.4.7",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",

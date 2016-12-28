@@ -9,7 +9,7 @@ var proxy = httpProxy.createProxyServer();
 var app = new express()
 
 var isProduction = process.env.NODE_ENV === 'production';
-var port = isProduction ? process.env.PORT : 80;
+var port = isProduction ? process.env.PORT : 3000;
 //var publicPath = path.resolve(__dirname, 'static');
 var publicPath = config.output.publicPath;
 
@@ -20,7 +20,7 @@ app.use(webpackHotMiddleware(compiler))
 app.use(express.static(publicPath));
 
 app.get("/", function(req, res) {
-  res.sendFile(__dirname + '/app/index.html')
+  res.sendFile(__dirname + '/src/index.html')
 })
 
 

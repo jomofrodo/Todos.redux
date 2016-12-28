@@ -7,7 +7,7 @@ module.exports = {
   devtool: 'source-map',
   hostname: 'kanband',
   entry: {
-	    app: ['./app'],
+	    app: ['./src'],
 	    //webpack_client: 'webpack-hot-middleware/client',
 	    vendor: Object.keys(pkg.dependencies).filter(function(v) {
 		// Exclude alt-utils as it won't work with this setup
@@ -36,7 +36,7 @@ module.exports = {
         test: /\.js$/,
         loaders: [ 'babel' ],
         exclude: /node_modules/,
-        include: /app/
+        include: /src/
       },
       {   test: /\.css$/, 
 	    loader: ExtractTextPlugin.extract("style-loader", "css-loader"), 
