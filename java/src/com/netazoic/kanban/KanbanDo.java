@@ -16,7 +16,7 @@ import com.netazoic.ent.ENTException;
 import com.netazoic.ent.RouteAction;
 import com.netazoic.ent.ServENT.RouteEO;
 import com.netazoic.kanban.ent.ToDo;
-import com.netazoic.kanban.ent.Channel.CHN_Route;
+import com.netazoic.kanban.ent.Lane.LANE_Route;
 import com.netazoic.kanban.ent.Project.PRJ_Route;
 import com.netazoic.kanban.ent.ToDo.TODO_Param;
 import com.netazoic.kanban.ent.ToDo.TODO_Route;
@@ -77,11 +77,11 @@ public class KanbanDo extends Todos {
 		routeMap.put(TODO_Route.utdo.route, todoHdlr);
 		routeMap.put(TODO_Route.dtdo.route, todoHdlr);
 
-		routeMap.put(CHN_Route.lschn.route, chanHdlr);
-		routeMap.put(CHN_Route.cchn.route, chanHdlr);
-		routeMap.put(CHN_Route.rchn.route, chanHdlr);
-		routeMap.put(CHN_Route.uchn.route, chanHdlr);
-		routeMap.put(CHN_Route.dchn.route, chanHdlr);
+		routeMap.put(LANE_Route.lsLANE.route, chanHdlr);
+		routeMap.put(LANE_Route.cLANE.route, chanHdlr);
+		routeMap.put(LANE_Route.rLANE.route, chanHdlr);
+		routeMap.put(LANE_Route.uLANE.route, chanHdlr);
+		routeMap.put(LANE_Route.dLANE.route, chanHdlr);
 
 
 		routeMap.put(PRJ_Route.lsprj.route, projHdlr);
