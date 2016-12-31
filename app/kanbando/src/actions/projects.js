@@ -1,7 +1,7 @@
 import uuid from 'node-uuid';
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
-export function createProject(project) {//debugger;
+export function createProject(project) {
   return {
     type: CREATE_PROJECT,
     project: {
@@ -54,4 +54,13 @@ export function moveProjectTodo({sourceID, targetID}) {
     targetID
   };
 };
+
+export const SET_CURRENT_PROJECT = 'SET_CURRENT_PROJECT';
+export function setCurrentProject(projectID) {
+  return {
+    type: SET_CURRENT_PROJECT,
+    projectID
+  };
+};
+
 

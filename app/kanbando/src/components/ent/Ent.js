@@ -1,5 +1,5 @@
 import React from 'react';
-import * as types from '../constants/ActionTypes';
+import * as types from '../../constants/ActionTypes';
 
 export default class Ent extends React.Component {
 

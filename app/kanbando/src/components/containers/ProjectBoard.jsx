@@ -1,22 +1,76 @@
 import React from 'react';
-import {compose} from 'redux';
-import {connect} from 'react-redux';
-import {DragDropContext} from 'react-dnd';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import Projects from '../Projects.jsx';
-import {createProject} from '../../actions/projects';
+import Projects from '../ent/Projects.jsx';
+import Project from '../ent/Project.jsx';
+import { createProject } from '../../actions/projects';
+import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
 
 class ProjectBoard extends React.Component {
-  render() {
-    const {projects, createProject} = this.props;
+  state = { sidebarVisible: false }
+  toggleSidebar = () => this.setState({ sidebarVisible: !this.state.sidebarVisible });
 
+  componentWillReceiveProps(nextProps) {
+    //console.log(nextProps);
+  }
+  handleCreateProject() {
+    const {createProject} = this.props;
+    createProject({ name: 'New project' });
+  }
+  render() {
+
+    const {projects, currentProjectID, createProject} = this.props;
+    //const { sidebarVisible } = this.state;
+    const sidebarVisible = currentProjectID != null && currentProjectID != 0;
+    let currentProject = null;
+    if (currentProjectID) {
+      let flgFound = 0;
+      let tempPrj = null, idx = 0;
+      while (!flgFound && idx < projects.length) {
+        tempPrj = projects[idx];
+        if (tempPrj.id == currentProjectID) {
+          flgFound = true;
+          currentProject = tempPrj;
+        }
+        idx++;
+      }
+
+    }
     return (
       <div>
         <button className="add-project"
-          onClick={createProject.bind(null, {
-            name: 'New project'
-          })}>+</button>
-        <Projects projects={projects} />
+          onClick={createProject.bind(null, { name: 'New project' })}>+</button>
+        <Menu>
+          <Menu.Item name='home' onClick={this.toggleSidebar}>
+            <Icon name='home' />
+            Sidebar
+            </Menu.Item>
+          <Menu.Item name="add" onClick={() => this.handleCreateProject() }>
+            <Icon name='add' />
+            Add new project
+            </Menu.Item>
+          <Menu.Item name='camera'>
+            <Icon name='camera' />
+            Channels
+            </Menu.Item>
+        </Menu>
+        <Sidebar.Pushable as={Segment}>
+          <Sidebar as={Segment} animation='scale down' direction='right' width='wide' visible={sidebarVisible} icon="labeled" vertical>
+            {currentProject &&
+              <Project project={currentProject} displayFormat="full" />
+            }
+          </Sidebar>
+          <Sidebar.Pusher>
+            <Segment basic>
+              <div>
+
+                <Projects projects={projects} />
+              </div>
+            </Segment>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
       </div>
     );
   }
@@ -24,7 +78,10 @@ class ProjectBoard extends React.Component {
 
 
 // Redux wiring
-const stateMap = (state) => ({ projects: state.projects });
+const stateMap = (state) => ({
+  projects: state.projects,
+  currentProjectID: state.currentProjectID
+});
 const actionMap = { createProject };
 ProjectBoard = connect(stateMap, actionMap)(ProjectBoard);  //Wire it up as a Redux container
 // End of Redux wiring

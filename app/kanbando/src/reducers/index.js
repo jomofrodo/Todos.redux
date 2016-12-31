@@ -6,7 +6,7 @@ import notes from './notes'
 import * as appTypes from '../actions/app';
 
 const appReducer = combineReducers({
-	todos, lanes, projects, notes
+	todos, lanes, projects, notes, currentProjectID
 });
 
 const rootReducer = (state, action) => {
@@ -17,7 +17,18 @@ const rootReducer = (state, action) => {
 		default:
 			state = state;
 	}
-	return appReducer(state, action)
+
+	return appReducer(state,action);
+
+}
+
+function currentProjectID(state = 0, action) {
+  switch (action.type) {
+    case 'SET_CURRENT_PROJECT':
+      return action.projectID;
+    default:
+      return state
+  }
 }
 
 

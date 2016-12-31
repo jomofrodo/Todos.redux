@@ -3,7 +3,7 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import Lanes from '../Lanes.jsx';
+import Lanes from '../ent/Lanes.jsx';
 import {createLane} from '../../actions/lanes';
 
 class KanBanBoard extends React.Component {

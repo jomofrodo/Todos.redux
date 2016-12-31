@@ -19,9 +19,10 @@ export default function projects(state = initialState, action) {
       });
 
     case types.DELETE_PROJECT:
-      let filtProjects = state.filter((project) => project.id !== action.id);
-      debugger;
-      return filtProjects;
+      let filtProjects = state.filter(
+        (project) => project.id !== action.id
+        );
+      return filtProjects;    
 
     case types.ATTACH_TO_PROJECT:
     	debugger;

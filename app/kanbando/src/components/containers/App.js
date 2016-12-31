@@ -2,27 +2,41 @@ import React, { Component } from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import logo from '../../img/logo.svg';
-import '../../css/App.css';
-import '../../css/kanban.css';
+
 import ProjectBoard from './ProjectBoard';
 import KanBanBoard from './KanBanBoard';
 import {resetApp} from '../../actions/app.js';
+import * as projectActions from '../../actions/projects.js';
+
+import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
+
 
 import $ from 'jquery';
-import '../../css/reset.css';
+window.jQuery = $;
+
+require('semantic-ui/dist/components/tab');   //user require instead of import because of order of processing issues
+											  //import statements always moved to the top. Take place in front of 'jQuery' var assign
+require('semantic-ui/dist/semantic.min.css');
+require('semantic-ui/dist/components/tab.css');
+//require('../../css/reset.css');
+
+require('../../css/App.css');
+require('../../css/kanban.css');
+
+
 
 import 'jquery-ui/themes/base/sortable.css';
-import 'jquery-ui/themes/base/tabs.css';
 import 'jquery-ui/ui/widgets/sortable';
-import 'jquery-ui/ui/widgets/tabs';
 
 
 class App extends Component {
 
 	componentDidMount() {
-		$('#div-tabs').tabs({
+		$('.tabular.menu .item').tab();
+		/*({
 				active:0,
 				collapsible: true});			//load jquery-ui tabs
+		*/
 		$(".sortable").sortable({		// jquery-ui sortable
 		});
 	}
@@ -44,15 +58,17 @@ class App extends Component {
 	
 				</div>
 				<div id="div-tabs">
-					<ul className="ui tabular menu">
-						<li><a href="#tab-projects">Project Board</a></li>
-						<li><a href="#tab-kanban">Kanban View</a></li>
-					</ul>
+					<div className="ui tabular menu">
+						<div className="item" data-tab="tab-projects">Project Board
+						    
+						</div>
+						<div className="item" data-tab="tab-kanban">Kanban View</div>
+					</div>
 
-					<div className="ui tab" id="tab-projects">
+					<div className="ui tab" data-tab="tab-projects" id="tab-projects">
 						<ProjectBoard />
 					</div>
-					<div className="ui tab" id="tab-kanban">
+					<div className="ui tab" data-tab="tab-kanban" id="tab-kanban">
 						<KanBanBoard />
 					</div>
 				</div>
@@ -66,6 +82,7 @@ export default compose(
 		  connect(state => ({
 		    state: state
 		  }),{
-			 resetApp
+			 resetApp, 
+			 ...projectActions
 		  })
 		)(App);

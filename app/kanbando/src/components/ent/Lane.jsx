@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import {DropTarget} from 'react-dnd';
 import Notes from './Notes.jsx';
 import Editable from './Editable.jsx';
-import ItemTypes from '../constants/ItemTypes';
-import * as laneActions from '../actions/lanes';
-import * as noteActions from '../actions/notes';
+import ItemTypes from '../../constants/ItemTypes';
+import * as laneActions from '../../actions/lanes';
+import * as noteActions from '../../actions/notes';
 
 const noteTarget = {
   hover(targetProps, monitor) {

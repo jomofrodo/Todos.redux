@@ -1,7 +1,13 @@
 body {
-  background: cornsilk;
+  background: #C0C0C0;
 
   font-family: sans-serif;
+}
+
+button, input, optgroup, select, textarea {
+    color: black;
+    font: inherit;
+    margin: 0;
 }
 
 .lane {
@@ -155,3 +161,8 @@ body {
 .project-header:hover .project-delete {
   visibility: visible;
 }
+
+
+div.ui.tab{clear:left;}
+
+
