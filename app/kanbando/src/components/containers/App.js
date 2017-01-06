@@ -8,7 +8,6 @@ import KanBanBoard from './KanBanBoard';
 import {resetApp} from '../../actions/app.js';
 import * as projectActions from '../../actions/projects.js';
 
-import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
 
 
 import $ from 'jquery';

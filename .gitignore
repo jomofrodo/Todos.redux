@@ -16,3 +16,4 @@ java/build/lib
 /WEB-INF/
 .tern-project
 .cvsignore
+redux-demo/

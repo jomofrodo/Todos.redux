@@ -24,7 +24,33 @@ const noteTarget = {
 };
 
 class Project extends Ent {
-  state = {editing:false}
+  state = {editing:false};
+  projectID;
+  prjName;
+  prjDesc;
+  prjCode;
+  prjColor;
+  prjClient;
+  notes;
+  todos;
+
+  constructor(props){
+    super(props);
+    const{project, ...otherProps} = this.props;
+    this.dbTable = 'kbd.Project';
+    this.entName = 'Project';
+    this.initNit();
+
+    this.assignProperties(project);
+    let propMap = this.getPropMap();
+    console.log(propMap);
+  }
+
+   assignProperties(entObj){
+     super.assignProperties(entObj);
+      this.projectID = entObj.id;
+      this.prjName = entObj.name;
+    }
 
   handleProjectClick(projectID) {
     const {project, setCurrentProject, currentProjectID} = this.props;
