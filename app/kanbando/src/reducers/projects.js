@@ -10,9 +10,10 @@ export default function projects(state = initialState, action) {
 
     case types.UPDATE_PROJECT:
       return state.map((project) => {
+        //debugger;
         if(project.id === action.id) {
-          const {type, ...updatedLane} = action;
-          return Object.assign({}, project, updatedLane);
+          const {type, ...updatedProject} = action;
+          return Object.assign({}, project, updatedProject);
         }
 
         return project;

@@ -3,14 +3,17 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import Ent from '../ent/Ent';
 import Projects from '../ent/Projects.jsx';
 import Project from '../ent/Project.jsx';
 import { createProject } from '../../actions/projects';
 import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
 
-class ProjectBoard extends React.Component {
+class ProjectBoard extends Ent {
   state = { sidebarVisible: false }
-  toggleSidebar = () => this.setState({ sidebarVisible: !this.state.sidebarVisible });
+  toggleSidebar(){
+    this.setState({ sidebarVisible: !this.state.sidebarVisible });
+  } 
 
   componentWillReceiveProps(nextProps) {
     //console.log(nextProps);
@@ -19,20 +22,20 @@ class ProjectBoard extends React.Component {
     const {createProject} = this.props;
     createProject({ name: 'New project' });
   }
+
   render() {
 
     const {projects, currentProjectID, createProject} = this.props;
     //const { sidebarVisible } = this.state;
-    const sidebarVisible = currentProjectID != null && currentProjectID != 0;
+    const sidebarVisible = currentProjectID?true:false;
     let currentProject = null;
     if (currentProjectID) {
-      let flgFound = 0;
       let tempPrj = null, idx = 0;
-      while (!flgFound && idx < projects.length) {
+      while (idx < projects.length) {
         tempPrj = projects[idx];
         if (tempPrj.id == currentProjectID) {
-          flgFound = true;
           currentProject = tempPrj;
+          break;
         }
         idx++;
       }
@@ -40,8 +43,6 @@ class ProjectBoard extends React.Component {
     }
     return (
       <div>
-        <button className="add-project"
-          onClick={createProject.bind(null, { name: 'New project' })}>+</button>
         <Menu>
           <Menu.Item name='home' onClick={this.toggleSidebar}>
             <Icon name='home' />
@@ -59,7 +60,7 @@ class ProjectBoard extends React.Component {
         <Sidebar.Pushable as={Segment}>
           <Sidebar as={Segment} animation='scale down' direction='right' width='wide' visible={sidebarVisible} icon="labeled" vertical>
             {currentProject &&
-              <Project project={currentProject} displayFormat="full" />
+              <Project project={currentProject} format="full" />
             }
           </Sidebar>
           <Sidebar.Pusher>
