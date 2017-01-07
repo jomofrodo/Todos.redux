@@ -11,7 +11,7 @@ export default function projects(state = initialState, action) {
     case types.UPDATE_PROJECT:
       return state.map((project) => {
         //debugger;
-        if(project.id === action.id) {
+        if(project.projectID === action.projectID) {
           const {type, ...updatedProject} = action;
           return Object.assign({}, project, updatedProject);
         }
@@ -21,7 +21,7 @@ export default function projects(state = initialState, action) {
 
     case types.DELETE_PROJECT:
       let filtProjects = state.filter(
-        (project) => project.id !== action.id
+        (project) => project.projectID !== action.projectID
         );
       return filtProjects;    
 
@@ -40,7 +40,7 @@ export default function projects(state = initialState, action) {
             ): []
           });
         }
-        if(project.id === projectID) {
+        if(project.projectID === projectID) {
           return Object.assign({}, project, {
             notes: [...project.notes, noteID]
           });
@@ -51,7 +51,7 @@ export default function projects(state = initialState, action) {
 
     case types.DETACH_FROM_PROJECT:
       return state.map((project) => {
-        if(project.id === action.projectID) {
+        if(project.projectID === action.projectID) {
           return Object.assign({}, project, {
             notes: project.notes.filter((id) => id !== action.noteID)
           });
@@ -76,7 +76,7 @@ export default function projects(state = initialState, action) {
 
       if(sourceLane === targetLane) {
         return state.map((project) => {
-          return project.id === sourceLane.id ? Object.assign({}, project, {
+          return project.projectID === sourceLane.id ? Object.assign({}, project, {
             notes: update(sourceLane.notes, {
               $splice: [
                 [sourceNoteIndex, 1],

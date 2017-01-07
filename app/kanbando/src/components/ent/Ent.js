@@ -15,22 +15,24 @@ export default class Ent extends React.Component {
 
         super(props);
         this.nit = new Nit();
-        //Using core_decorators @autobind instead of this shotgun-blast technique below
-        /* bind 'this' (the instance) on all methods of prototype of 'this' (the instance)
+        // Waiting for @decorators to make it into the mainstream.  e.g., core-decorators
+        // Would love to use @autobind instead of this shotgun-blast technique below
+
+        /* Bind 'this' (the instance) on all methods of prototype of 'this' (the instance)
         */
-        /*
+
         for (let prop of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
             let method = this[prop];
             if (!(method instanceof Function) || method === this.constructor) continue;
-            //method = method.bind(this);
             this[prop] = this[prop].bind(this);
-         }
-
-        // A manual way of binding 'this' to just selected methods 
-         _bind(...methods) {
-          methods.forEach((method) => this[method] = this[method].bind(this));
         }
-        */
+
+
+
+    }
+    // A manual way of binding 'this' to just selected methods 
+    _bind(...methods) {
+        methods.forEach((method) => this[method] = this[method].bind(this));
     }
 
     assignProperties(entObj) {
@@ -42,7 +44,7 @@ export default class Ent extends React.Component {
         for (let prop of Object.getOwnPropertyNames(this)) {
             if ((this[prop] instanceof Function)) continue;
             //TODO skip boilerplate props such as __prototype__ and 'props'
-            if(prop instanceof Object) continue;
+            if (prop instanceof Object) continue;
             propMap[prop] = this[prop];
         }
         return propMap;

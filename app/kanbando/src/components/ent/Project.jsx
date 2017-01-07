@@ -8,6 +8,8 @@ import ItemTypes from '../../constants/ItemTypes';
 import PopupBasic from '../ui/PopupBasic';
 import * as projectActions from '../../actions/projects';
 import * as noteActions from '../../actions/notes';
+import { Input } from 'semantic-ui-react';
+
 
 const noteTarget = {
   hover(targetProps, monitor) {
@@ -16,7 +18,7 @@ const noteTarget = {
 
     if (!targetProps.project.notes.length) {
       targetProps.attachToProject(
-        targetProps.project.id,
+        targetProps.project.projectID,
         sourceID
       );
     }
@@ -24,7 +26,7 @@ const noteTarget = {
 };
 
 class Project extends Ent {
-  state = {editing:false};
+  state = { editing: false };
   projectID;
   prjName;
   prjDesc;
@@ -34,28 +36,23 @@ class Project extends Ent {
   notes;
   todos;
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    const{project, ...otherProps} = this.props;
+    const {project, ...otherProps} = this.props;
     this.dbTable = 'kbd.Project';
     this.entName = 'Project';
     this.initNit();
 
     this.assignProperties(project);
     let propMap = this.getPropMap();
-    console.log(propMap);
   }
 
-   assignProperties(entObj){
-     super.assignProperties(entObj);
-      this.projectID = entObj.id;
-      this.prjName = entObj.name;
-    }
+
 
   handleProjectClick(projectID) {
     const {project, setCurrentProject, currentProjectID} = this.props;
-    if (project.id != currentProjectID) {
-      setCurrentProject(project.id);
+    if (project.projectID != currentProjectID) {
+      setCurrentProject(project.projectID);
     } else {
       setCurrentProject(0);
     }
@@ -63,7 +60,8 @@ class Project extends Ent {
 
   deleteProject(project, e) {
     e.stopPropagation();
-    const projectID = project.id;
+    debugger;
+    const projectID = project.projectID;
     // Clean up notes
     project.notes.forEach(noteID => {
       this.props.detachFromProject(projectID, noteID);
@@ -74,8 +72,8 @@ class Project extends Ent {
   }
 
   render() {
-     const { format, ...props} = this.props;
-     switch (format) {
+    const { format, ...props} = this.props;
+    switch (format) {
       case "full":
         return this.renderFullProject();
         break;
@@ -84,20 +82,63 @@ class Project extends Ent {
     }
   }
 
-  renderFullProject() {
-    const { project, updateProject, deleteProject, setCurrentProject, format, ...props} = this.props;
-    const projectID = project.id;
+
+  handleInputChange = (e) => {
+    //debugger;
+    const el = e.target
+    const { project, updateProject, ...props} = this.props;
+    let val = el.value;
+    let elName = el.name;
+    let projectID = project.projectID;
+    updateProject({ projectID, prjName: val, editing: true })
+  }
+
+
+  checkEnter = (e) => {
+    if (e.key === 'Enter') {
+      this.handleInputChange(e);
+    }
+    return(e.key);
+  };
+
+
+  renderFullProject = () => {
+    const { project, updateProject, deleteProject, ...props} = this.props;
+    const projectID = project.projectID;
+    const flgEditing = project.editing;
+
+    /*
+          <div className="ui labeled input">
+            <div className="ui label">
+              name:
+            </div>
+           
+
+            <Input placeholder="my project" type="text" name="prjName" id="prjName" defaultValue={project.prjName}
+              value={project.prjName}
+              onKeyPress={this.checkEnter}
+              onBlur={this.handleInputChange}
+              //onChange={()=>this.handleInputChange} 
+              />
+          </div>
+         */
+
     return (
       <div className="project full-project"  >
         <div className="project-header">
-          <Editable className="project-name" editing={project.editing}
-            onValueClick={()=>{console.log("editing!"); updateProject({ id: projectID, editing: true });}}
-            value={project.name}
-            onEdit={name => updateProject({ id: projectID, name, editing: false })} />
-          <br />
+           <div>
+              <label for="prjName">name:</label>  <Editable id="prjName" name="prjName" 
+              className="project-name" editing={flgEditing}
+            onValueClick={() => updateProject({projectID, editing: true})}
+            value={project.prjName}
+            onEdit={prjName => updateProject({projectID, prjName, editing: false})} />
+          </div>
           <div>id: {projectID}</div>
           <div className="project-delete">
-            <button onClick={() => deleteProject(projectID)}>x</button>
+            <button onClick={() => {
+              debugger;
+            deleteProject(projectID)}
+            }>x</button>
           </div>
         </div>
       </div>
@@ -105,16 +146,18 @@ class Project extends Ent {
   }
 
   renderProjectCard() {
-    const { project, updateProject, deleteProject, setCurrentProject, format, ...props} = this.props;
-    const projectID = project.id;
+    const {project, updateProject, deleteProject, setCurrentProject, format, ...props} = this.props;
+    const projectID = project.projectID;
     return (
-      <div className="project" onClick={() => this.handleProjectClick(projectID)}>
+      <div className="project" >
         <div className="project-header">
-          <Editable className="project-name" editing={project.editing}
-            value={project.name}
-            onEdit={name => updateProject({ id: projectID, name, editing: false })} />
-          <br />
-          <div>id: {projectID}</div>
+          <div onClick={() => this.handleProjectClick(projectID)}>
+            <div className="project-name" >
+              {project.prjName}
+             </div>
+            <br />
+            <div>id: {projectID}</div>
+          </div>
           <div className="project-delete">
             <button onClick={() => deleteProject(projectID)}>x</button>
           </div>
@@ -132,11 +175,11 @@ class ProjectEditorPopUp extends PopupBasic {
     let content = (
       <div className="project-edit">
         Project name: <Editable className="project-name" editing={project.editing}
-          value={project.name}
-          onEdit={name => project.name = name}
+          value={project.prjName}
+          onEdit={name => project.prjName = name}
           />
         <div className="project-update">
-          <button onClick={(project) => updateProject({ id: project.projectID, name: project.name, editing: false })}>update</button>
+          <button onClick={(project) => updateProject({ id: project.projectID, name: project.prjName, editing: false })}>update</button>
         </div>
         <div className="project-deletex">
           <button onClick={() => deleteProject(project.projectID)}>x</button>

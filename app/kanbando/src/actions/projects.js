@@ -5,7 +5,7 @@ export function createProject(project) {
   return {
     type: CREATE_PROJECT,
     project: {
-      id: uuid.v4(),
+      projectID: uuid.v4(),
       notes: project.notes || [],
       ...project
     }
@@ -24,7 +24,7 @@ export const DELETE_PROJECT = 'DELETE_PROJECT';
 export function deleteProject(projectID) {
   return {
     type: DELETE_PROJECT,
-    id: projectID
+    projectID: projectID
   };
 };
 

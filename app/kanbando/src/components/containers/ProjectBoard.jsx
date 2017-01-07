@@ -15,12 +15,9 @@ class ProjectBoard extends Ent {
     this.setState({ sidebarVisible: !this.state.sidebarVisible });
   } 
 
-  componentWillReceiveProps(nextProps) {
-    //console.log(nextProps);
-  }
   handleCreateProject() {
     const {createProject} = this.props;
-    createProject({ name: 'New project' });
+    createProject({ prjName: 'New project' });
   }
 
   render() {
@@ -33,7 +30,7 @@ class ProjectBoard extends Ent {
       let tempPrj = null, idx = 0;
       while (idx < projects.length) {
         tempPrj = projects[idx];
-        if (tempPrj.id == currentProjectID) {
+        if (tempPrj.projectID == currentProjectID) {
           currentProject = tempPrj;
           break;
         }

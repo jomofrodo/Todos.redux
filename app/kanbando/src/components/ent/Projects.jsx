@@ -8,7 +8,7 @@ export default ({projects}) => {
 
     <div className="projects">{projects.map((project) =>
 
-      <Project className="project" key={project.id} project={project} />
+      <Project className="project" key={project.projectID} project={project} />
     )}</div>
   );
 }
