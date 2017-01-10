@@ -12,7 +12,6 @@ export default class Editable extends React.Component {
   }
   renderEdit = () => {
     return (
-      <div>
         <input type="text"
           ref={
             (e) => e ? e.selectionStart = this.props.value.length : null
@@ -21,16 +20,12 @@ export default class Editable extends React.Component {
           defaultValue={this.props.value}
           onBlur={this.finishEdit}
           onKeyPress={this.checkEnter} />
-      </div>
     );
   };
   renderValue = () => {
     const onDelete = this.props.onDelete;
     return (
-      <div onClick={this.props.onValueClick}>
-        <span className="value">{this.props.value}</span>
-        {onDelete ? this.renderDelete() : null}
-      </div>
+        <span className="value" onClick={this.props.onValueClick}>{this.props.value}</span>
     );
   };
   renderDelete = () => {

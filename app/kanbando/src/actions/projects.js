@@ -1,4 +1,5 @@
 import uuid from 'node-uuid';
+import API from '../libs/API';
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
 export function createProject(project) {
@@ -14,6 +15,7 @@ export function createProject(project) {
 
 export const UPDATE_PROJECT = 'UPDATE_PROJECT';
 export function updateProject(updatedProject) {
+  //debugger;
   return {
     type: UPDATE_PROJECT,
     ...updatedProject
@@ -62,5 +64,34 @@ export function setCurrentProject(projectID) {
     projectID
   };
 };
+
+export const UPDATE_PROJECT_SORT = 'UPDATE_PROJECT_SORT';
+export function updateProjectSort(sortMap) {
+  return {
+    function(dispatch) {
+      return dispatch({
+        type: UPDATE_PROJECT_SORT,
+        sortMap: sortMap
+      }).then(API.updateProjectSort(sortMap)
+        .catch(e =>{
+          dispatch(updateFailed(e));
+      }).then(
+        sortMap => dispatch(updateGolden(sortMap)),
+        error => dispatch(updateFailed(error))
+        ))
+    }
+  }
+}
+
+function updateGolden(response) {
+  console.log(response);
+}
+
+function updateFailed(error) {
+  debugger;
+  console.log(error);
+}
+
+
 
 

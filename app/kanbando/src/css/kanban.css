@@ -166,3 +166,25 @@ button, input, optgroup, select, textarea {
 div.ui.tab{clear:left;}
 
 
+/* input span class stolen from semantic-ui .ui.input input style */
+.ui.input .sortof-disabled {
+  background: black;
+  border:1px solid #C0C0C0;
+
+}
+
+div.ui.input {
+
+    background: #FFF;
+}
+
+
+div.project-header div.ui.label { clear:left;}
+
+div.project-editor div.ui.label { min-width:80px;}
+
+.limit-text-100 {  white-space: nowrap;
+          overflow: hidden;
+          max-width:100px;
+          text-overflow:ellipsis;}
+

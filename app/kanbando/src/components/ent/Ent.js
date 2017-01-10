@@ -37,6 +37,22 @@ export default class Ent extends React.Component {
 
     assignProperties(entObj) {
         Object.assign(this, entObj);
+        //set any null values to empty string
+        //#@$#@React
+         for (let prop of Object.getOwnPropertyNames(this)) {
+            if ((this[prop] instanceof Function)) continue;
+            if (prop instanceof Object) continue;
+            if (this[prop] == null) this[prop] = '';
+         }
+    }
+
+    resetObject(){
+         for (let prop of Object.getOwnPropertyNames(this)) {
+            if ((this[prop] instanceof Function)) continue;
+            if (prop instanceof Object) continue;
+            this[prop] = null;
+         }
+
     }
 
     getPropMap() {
