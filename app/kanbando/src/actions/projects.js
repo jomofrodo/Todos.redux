@@ -8,6 +8,7 @@ export function createProject(project) {
     project: {
       projectID: uuid.v4(),
       notes: project.notes || [],
+      todos: project.todos || [],
       ...project
     }
   };

@@ -1,8 +1,5 @@
 import React from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import Ent from '../ent/Ent';
 import Projects from '../ent/Projects.jsx';
 import Project from '../ent/Project.jsx';
@@ -34,7 +31,7 @@ class ProjectBoard extends Ent {
         const elms = ui.item.parent().find(".project");
         let currentSort = "";
         elms.map(function (el, idx) {
-          currentSort += $(this).attr("data-idx") + " ";
+          return $(this).attr("data-idx");
         });
         currentSort = currentSort.trim().split(" ").join(",");
         cb(currentSort);
@@ -48,7 +45,7 @@ class ProjectBoard extends Ent {
 
 
   updateProjectSort(currentSort) {
-    const { project, actions } = this.props;
+    const {actions } = this.props;
     API.updateProjectSort(currentSort, (pubType) => {
       actions.updateProjectSort({ sortMap: currentSort });
     });
@@ -56,7 +53,7 @@ class ProjectBoard extends Ent {
 
   render() {
 
-    const {projects, currentProjectID, createProject} = this.props;
+    const {projects, currentProjectID} = this.props;
     //const { sidebarVisible } = this.state;
     const sidebarVisible = currentProjectID ? true : false;
     let currentProject = null;
@@ -64,7 +61,7 @@ class ProjectBoard extends Ent {
       let tempPrj = null, idx = 0;
       while (idx < projects.length) {
         tempPrj = projects[idx];
-        if (tempPrj.projectID == currentProjectID) {
+        if (tempPrj.projectID === currentProjectID) {
           currentProject = tempPrj;
           break;
         }

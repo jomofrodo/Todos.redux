@@ -1,13 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk';
 import App from './components/containers/App';
 import configureStore from './store/configureStore';
 //import 'todomvc-app-css/index.css';
 import storage from './libs/storage';
-import rootReducer from './reducers';
 import 'jquery-ui/themes/base/sortable.css';
 import 'jquery-ui/themes/base/tabs.css';
 import 'jquery-ui/ui/widgets/sortable';

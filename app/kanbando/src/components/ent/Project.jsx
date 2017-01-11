@@ -1,29 +1,12 @@
 import React from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Ent from './Ent';
-import Notes from './Notes.jsx';
 import Editable1 from './Editable.1.jsx';
-import ItemTypes from '../../constants/ItemTypes';
 import PopupBasic from '../ui/PopupBasic';
 import * as projectActions from '../../actions/projects';
-import * as noteActions from '../../actions/notes';
-import { Input } from 'semantic-ui-react';
 
 
-const noteTarget = {
-  hover(targetProps, monitor) {
-    const sourceProps = monitor.getItem();
-    const sourceID = sourceProps.id;
 
-    if (!targetProps.project.notes.length) {
-      targetProps.attachToProject(
-        targetProps.project.projectID,
-        sourceID
-      );
-    }
-  }
-};
 
 class Project extends Ent {
   state = { editing: false };
@@ -41,11 +24,11 @@ class Project extends Ent {
   className;
   style;
 
+
   constructor(props) {
     super(props);
-    const {project, ...otherProps} = this.props;
-    //for react-draggable
-    const {style,className,onMouseDown,onMouseUp} = this.props;
+    const {project} = this.props;
+
     this.dbTable = 'kbd.Project';
     this.entName = 'Project';
     this.initNit();
@@ -58,7 +41,7 @@ class Project extends Ent {
 
   handleProjectClick(projectID) {
     const {project, setCurrentProject, currentProjectID} = this.props;
-    if (project.projectID != currentProjectID) {
+    if (project.projectID !== currentProjectID) {
       setCurrentProject(project.projectID);
     } else {
       setCurrentProject(0);
@@ -79,24 +62,23 @@ class Project extends Ent {
     this.props.deleteProject(projectID);
   }
 
-  
-   handleUpdate(evt){
-      // debugger;
-      const fldVal = evt.target.value;
-      const fldName = evt.target.name;
-      let params = {};
-      params.projectID = this.projectID;
-      params[fldName] = fldVal;
-      //this.props.updateProject(params);
-      this.updateProject(params);
-   }
+
+  handleUpdate(evt) {
+    // debugger;
+    const fldVal = evt.target.value;
+    const fldName = evt.target.name;
+    let params = {};
+    params.projectID = this.projectID;
+    params[fldName] = fldVal;
+    //this.props.updateProject(params);
+    this.updateProject(params);
+  }
 
   render() {
     const { format } = this.props;
     switch (format) {
       case "full":
         return this.renderEditor();
-        break;
       default:
         return this.renderProjectCard();
     }
@@ -104,7 +86,7 @@ class Project extends Ent {
 
 
   renderEditor = () => {
-    const { project, updateProject, deleteProject, ...props} = this.props;
+    const { project, updateProject, deleteProject} = this.props;
 
     this.resetObject();
     this.assignProperties(project);
@@ -117,7 +99,7 @@ class Project extends Ent {
               name:
             </div>
             <Editable1 id="prjName" name="prjName"
-              className="project-name" editing={this.flgEditing}
+              className="project-name" flgEditing={this.flgEditing}
               onValueClick={() => updateProject({ projectID: this.projectID, flgEditing: true })}
               value={this.prjName}
               onEdit={prjName => updateProject({ projectID: this.projectID, prjName, flgEditing: false })} />
@@ -128,18 +110,18 @@ class Project extends Ent {
           </div>
           <div className="ui labeled input">
             <div className="ui label">color: </div>
-            <input type="color" name="prjColor" id="prjColor" value={this.prjColor} 
-               onChange={this.handleUpdate}
+            <input type="color" name="prjColor" id="prjColor" value={this.prjColor}
+              onChange={this.handleUpdate}
               />
-              <span style={{width:100,background:this.prjColor}}></span>
+            <span style={{ width: 100, background: this.prjColor }}></span>
           </div>
           <div className="ui labeled input">
             <div className="ui label">icon: </div>
-            <input type="text" name="prjIcon" id="prjIcon" value={this.prjIcon} 
-               style={{width:100}}
-               onChange={this.handleUpdate}
+            <input type="text" name="prjIcon" id="prjIcon" value={this.prjIcon}
+              style={{ width: 100 }}
+              onChange={this.handleUpdate}
               />
-              <span style={{width:100}}><i className={this.prjIcon + " icon"}></i></span>
+            <span style={{ width: 100 }}><i className={this.prjIcon + " icon"}></i></span>
           </div>
           <div className="project-delete">
             <button onClick={() => {
@@ -154,13 +136,12 @@ class Project extends Ent {
   }
 
   renderProjectCard() {
-    const {project,  deleteProject,  idx, ...props} = this.props;
+    const {project, deleteProject, idx} = this.props;
     const projectID = project.projectID;
-    let className = (this.className?this.className:"") + " project";
-    let style = this.style;
+    let className = (this.className ? this.className : "") + " project";
     return (
       <div className={className} data-idx={idx}>
-        <div className="project-header" style={{background:project.prjColor}}>
+        <div className="project-header" style={{ background: project.prjColor }}>
           <div onClick={() => this.handleProjectClick(projectID)}>
             <div className="project-name" >
               {project.prjName}
@@ -202,6 +183,22 @@ class ProjectEditorPopUp extends PopupBasic {
   }
 
 }
+
+
+  Project.propTypes = {
+    project: React.PropTypes.shape({
+      projectID: React.PropTypes.string.isRequired,
+      prjName: React.PropTypes.string.isRequired,
+      prjDesc: React.PropTypes.string,
+      prjColor: React.PropTypes.string,
+      prjCode: React.PropTypes.string,
+      prjClient: React.PropTypes.string,
+      prjIcon: React.PropTypes.string,
+      prjLogo: React.PropTypes.string,
+      notes: React.PropTypes.array,
+      todos: React.PropTypes.array
+    })
+  }
 
 // Redux wiring
 const stateMap = (state) => ({

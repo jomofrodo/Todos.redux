@@ -24,7 +24,7 @@ const noteTarget = {
 
 class Lane extends React.Component {
   render() {
-    const {connectDropTarget, lane, laneNotes, ...props} = this.props;
+    const {connectDropTarget, lane, laneNotes,  ...props} = this.props;
     const laneId = lane.id;
 
     return connectDropTarget(

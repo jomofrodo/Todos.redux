@@ -7,11 +7,16 @@ export default API;
 
 function kbdAPI(action, args, cb) {
   let url = `kdb-api/`;
-  if (action) url = `${url}/${action}`;
   if(args){
-      args.map(function(el,idx){
-          url += "/" + el[0] + "/" + el[1];
-      })
+      let qString = args.map(function(el,idx){
+           return "&" + el[0] + "=" + el[1];
+      });
+      url +="?pAction=" + action;
+      for(let i =0; i< qString.length; i++){
+        url += qString[i]
+      }
+  }else{
+      url = `${url}/${action}`;
   }
   return fetch(url, {
     accept: 'application/json',

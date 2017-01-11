@@ -1,6 +1,5 @@
 import React from 'react';
 import Project from './Project.jsx';
-import Draggable from 'react-draggable'; // The default
 
 
 export default ({projects}) => {

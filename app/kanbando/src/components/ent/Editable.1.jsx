@@ -3,9 +3,9 @@ import { Input } from 'semantic-ui-react';
 
 export default class Editable1 extends React.Component {
   render() {
-    const {value, onEdit, onValueClick, editing, ...props} = this.props;
+    const { flgEditing} = this.props;
 
-    let renderer = (editing ? this.renderEdit : this.renderValue);
+    let renderer = (flgEditing ? this.renderEdit : this.renderValue);
     return (
       renderer()
     );
