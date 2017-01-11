@@ -66,37 +66,46 @@ export function setCurrentProject(projectID) {
   };
 };
 
-export function updateProjectSortOptimistic(sortMap){
-  return{
-type: UPDATE_PROJECT_SORT,
-        sortMap: sortMap
-  }
-}
+
 
 export const UPDATE_PROJECT_SORT = 'UPDATE_PROJECT_SORT';
 export function updateProjectSort(sortMap) {
-  return function(dispatch) {
-      debugger;
-      dispatch(updateProjectSortOptimistic(sortMap))
-      /*.then(API.updateProjectSort(sortMap)
-        .catch(e =>{
-          dispatch(updateFailed(e));
+  return function (dispatch) {
+    dispatch(updateProjectSortOptimistic(sortMap));
+    return API.updateProjectSort(sortMap)
+      .catch(e => {
+        dispatch(updateNoGo(e));
       }).then(
-        sortMap => dispatch(updateGolden(sortMap)),
-        error => dispatch(updateFailed(error))
-        ))
-        */
+      sortMap => dispatch(updateGolden(sortMap)),
+      error => dispatch(updateNoGo(error))
+      );
+
   }
 }
 
+export function updateProjectSortOptimistic(sortMap) {
+  return {
+    type: UPDATE_PROJECT_SORT,
+    sortMap: sortMap
+  }
+}
+export const LOG_INFO = 'LOG_INFO';
+export const LOG_ERROR = 'LOG_ERROR';
 function updateGolden(response) {
-  console.log("Update Success:  " + response);
+  return {
+    type: LOG_INFO,
+    msg: "Update Success:  " + response
+  }
+}
+function updateNoGo(error) {
+  return {
+    type: LOG_ERROR,
+    msg: "Update Failed:  " + error
+  }
 }
 
-function updateFailed(error) {
-  debugger;
-  console.log("Update Failed: " + error);
-}
+
+
 
 
 

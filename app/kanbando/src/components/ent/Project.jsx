@@ -41,6 +41,7 @@ class Project extends Ent {
 
   handleProjectClick(projectID) {
     const {project, setCurrentProject, currentProjectID} = this.props;
+    debugger;
     if (project.projectID !== currentProjectID) {
       setCurrentProject(project.projectID);
     } else {

@@ -6,7 +6,7 @@ export default API;
 
 
 function kbdAPI(action, args, cb) {
-  let url = `kdb-api/`;
+  let url = `/kbd-api/`;
   if(args){
       let qString = args.map(function(el,idx){
            return "&" + el[0] + "=" + el[1];
@@ -28,7 +28,7 @@ function kbdAPI(action, args, cb) {
 
 function updateProjectSort(currentSort, cb) {
   const action = "UpdateSectionSort/currentSort/" + currentSort;
-  kbdAPI(action, null, cb);
+  return kbdAPI(action, null, cb);
 }
 
 

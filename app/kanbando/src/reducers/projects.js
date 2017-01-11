@@ -20,19 +20,16 @@ export default function projects(state = initialState, action) {
       });
     case types.UPDATE_PROJECT_SORT:
       const sortMap = action.sortMap;
-      debugger;
-      /*
-      //For some reason sortMap.map is undefined
       return sortMap.map((idx) => {
         //be sure sortMap is zero-based
         return state[idx];
       });
-      */
+      /*
       let newState = [];
       for (let idx=0;idx<sortMap.length;idx++){
         newState[idx] = state[sortMap[idx]];
       }
-      return newState;
+      return newState;*/
     case types.DELETE_PROJECT:
       let filtProjects = state.filter(
         (project) => project.projectID !== action.projectID

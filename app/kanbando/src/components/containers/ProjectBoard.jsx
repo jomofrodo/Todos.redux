@@ -34,7 +34,6 @@ class ProjectBoard extends Ent {
           return $(this).attr("data-idx");
         });
         //convert React/jQuery monstrosity to POJ
-        debugger;
         let obj = [];
         for(let idx=0;idx<currentSort.length;idx++){
             obj[idx] = currentSort[idx];
