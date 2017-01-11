@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Ent from '../ent/Ent';
 import Projects from '../ent/Projects.jsx';
 import Project from '../ent/Project.jsx';
-import { createProject } from '../../actions/projects';
+import { createProject, updateProjectSort } from '../../actions/projects';
 import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
 import API from '../../libs/API';
 
@@ -30,11 +30,18 @@ class ProjectBoard extends Ent {
       update: function (evt, ui) {
         const elms = ui.item.parent().find(".project");
         let currentSort = "";
-        elms.map(function (el, idx) {
+        currentSort = elms.map(function (el, idx) {
           return $(this).attr("data-idx");
         });
-        currentSort = currentSort.trim().split(" ").join(",");
-        cb(currentSort);
+        //convert React/jQuery monstrosity to POJ
+        debugger;
+        let obj = [];
+        for(let idx=0;idx<currentSort.length;idx++){
+            obj[idx] = currentSort[idx];
+        }
+        currentSort = obj;
+        //currentSort = currentSort.trim().split(" ").join(",");
+        cb(obj);
       }
     });
   }
@@ -45,10 +52,8 @@ class ProjectBoard extends Ent {
 
 
   updateProjectSort(currentSort) {
-    const {actions } = this.props;
-    API.updateProjectSort(currentSort, (pubType) => {
-      actions.updateProjectSort({ sortMap: currentSort });
-    });
+    const {updateProjectSort} = this.props;
+    updateProjectSort(currentSort);
   }
 
   render() {
@@ -111,7 +116,7 @@ const stateMap = (state) => ({
   projects: state.projects,
   currentProjectID: state.currentProjectID
 });
-const actionMap = { createProject };
+const actionMap = { createProject, updateProjectSort };
 ProjectBoard = connect(stateMap, actionMap)(ProjectBoard);  //Wire it up as a Redux container
 // End of Redux wiring
 

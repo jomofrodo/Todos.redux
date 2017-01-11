@@ -18,7 +18,6 @@ const rootReducer = (state, action) => {
 			//nada  -- state = state;
 			break;
 	}
-
 	return appReducer(state,action);
 
 }

@@ -66,31 +66,36 @@ export function setCurrentProject(projectID) {
   };
 };
 
+export function updateProjectSortOptimistic(sortMap){
+  return{
+type: UPDATE_PROJECT_SORT,
+        sortMap: sortMap
+  }
+}
+
 export const UPDATE_PROJECT_SORT = 'UPDATE_PROJECT_SORT';
 export function updateProjectSort(sortMap) {
-  return {
-    function(dispatch) {
-      return dispatch({
-        type: UPDATE_PROJECT_SORT,
-        sortMap: sortMap
-      }).then(API.updateProjectSort(sortMap)
+  return function(dispatch) {
+      debugger;
+      dispatch(updateProjectSortOptimistic(sortMap))
+      /*.then(API.updateProjectSort(sortMap)
         .catch(e =>{
           dispatch(updateFailed(e));
       }).then(
         sortMap => dispatch(updateGolden(sortMap)),
         error => dispatch(updateFailed(error))
         ))
-    }
+        */
   }
 }
 
 function updateGolden(response) {
-  console.log(response);
+  console.log("Update Success:  " + response);
 }
 
 function updateFailed(error) {
   debugger;
-  console.log(error);
+  console.log("Update Failed: " + error);
 }
 
 
