@@ -151,7 +151,7 @@ button, input, optgroup, select, textarea {
   margin-right: 0.5em;
 }
 
-.project-delete {
+.project-delete, .project-edit{
   float: right;
 
   margin-left: 0.5em;
@@ -159,6 +159,9 @@ button, input, optgroup, select, textarea {
   visibility: hidden;
 }
 .project-header:hover .project-delete {
+  visibility: visible;
+}
+.project-header:hover .project-edit {
   visibility: visible;
 }
 

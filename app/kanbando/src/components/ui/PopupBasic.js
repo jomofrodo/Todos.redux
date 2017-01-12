@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Popup } from 'semantic-ui-react'
+import { Button, Popup, Icon } from 'semantic-ui-react'
 
 class PopupBasic extends Component {
   setContent(){
@@ -7,7 +7,7 @@ class PopupBasic extends Component {
     return false;
   }
   render() {
-    ////debugger;
+    debugger;
     const prompt = this.props.btnPrompt;
     const header = this.props.header;
     let content = this.props.content;

@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
-import PopupBasic from '../ui/PopupBasic';
+import {PopupBasic as ModalB} from '../ui/PopupBasic';
+//import ModalBasic from '../ui/ModalBasic';
+//import IconButton from '../ui/IconButton';
 import * as projectActions from '../../actions/projects';
-
-
+import {Popup,Icon} from 'semantic-ui-react';
+//import {ModalBS as Modal} from '../ui/ModalBS';
+//import {ModalPeteris as Modal} from '../ui/PeterisModal';
 
 
 class Project extends Ent {
@@ -39,29 +42,33 @@ class Project extends Ent {
   }
 
 
-  handleProjectClick(projectID) {
-    const {project, setCurrentProject, currentProjectID} = this.props;
+  handleProjectClick(myProjectID) {
+    const {currentProjectID, setCurrentProject} = this.props;
     debugger;
-    if (project.projectID !== currentProjectID) {
-      setCurrentProject(project.projectID);
+    if (myProjectID !== currentProjectID) {
+      setCurrentProject(myProjectID);
     } else {
       setCurrentProject(0);
     }
   }
 
-  handleDelete(project, e) {
+  handleDelete(e) {
+    debugger;
     e.stopPropagation();
+    if(!confirm("Delete this project")) return;
+    const {project} = this.props;
+
     //debugger;
-    const projectID = project.projectID;
     // Clean up notes
     project.notes.forEach(noteID => {
-      this.props.detachFromProject(projectID, noteID);
+      this.props.detachFromProject(this.projectID, noteID);
       this.props.deleteNote(noteID);
     });
 
     debugger;
-    this.props.deleteProject(projectID);
+    this.props.deleteProject(this.projectID);
   }
+
 
 
   handleUpdate(evt) {
@@ -124,12 +131,11 @@ class Project extends Ent {
               />
             <span style={{ width: 100 }}><i className={this.prjIcon + " icon"}></i></span>
           </div>
-          <div className="project-delete">
-            <button onClick={() => {
-              //debugger;
-              deleteProject(this.projectID)
-            }
-            }>x</button>
+
+          <div className="project-delete"><Icon circular name='delete'
+               onClick={() => {
+                 debugger;
+                 this.handleDelete}} />
           </div>
         </div>
       </div>
@@ -140,66 +146,55 @@ class Project extends Ent {
     const {project, deleteProject, idx} = this.props;
     const projectID = project.projectID;
     let className = (this.className ? this.className : "") + " project";
+    let Project = this;
     return (
       <div className={className} data-idx={idx}>
         <div className="project-header" style={{ background: project.prjColor }}>
-          <div onClick={() => this.handleProjectClick(projectID)}>
-            <div className="project-name" >
+          <div >
+            <div onClick={() => Project.handleProjectClick(projectID)} className="project-name" >
               {project.prjName}
               &nbsp; <i className={"icon " + project.prjIcon}></i>
             </div>
             <br />
             <div className="limit-text-100">id: {projectID}</div>
           </div>
-          <div className="project-delete">
-            <button onClick={() => deleteProject(projectID)}>x</button>
+          <div className="project-edit"><ModalB content={this.renderEditor()} trigger={<Icon circular name='write'/>}></ModalB></div>
+          <div className="project-delete"><Icon circular name='delete'
+               onClick={() => {
+                 debugger;
+                 this.handleDelete}} />
           </div>
+
         </div>
       </div>
     );
   }
 
 
+
 }
+
+
 
 let updateProject = null;  //Override with action handler from props
 
-class ProjectEditorPopUp extends PopupBasic {
-  setContent() {
-    let {project, updateProject, deleteProject} = this.props;
-    let content = (
-      <div className="project-edit">
-        Project name: <Editable1 className="project-name" editing={project.editing}
-          value={project.prjName}
-          onEdit={name => project.prjName = name}
-          />
-        <div className="project-update">
-          <button onClick={(project) => updateProject({ id: project.projectID, name: project.prjName, editing: false })}>update</button>
-        </div>
-        <div className="project-deletex">
-          <button onClick={() => deleteProject(project.projectID)}>x</button>
-        </div>
-      </div>);
-    return content;
-  }
 
+
+
+Project.propTypes = {
+  project: React.PropTypes.shape({
+    projectID: React.PropTypes.string.isRequired,
+    prjName: React.PropTypes.string.isRequired,
+    prjDesc: React.PropTypes.string,
+    prjColor: React.PropTypes.string,
+    prjCode: React.PropTypes.string,
+    prjClient: React.PropTypes.string,
+    prjIcon: React.PropTypes.string,
+    prjLogo: React.PropTypes.string,
+    notes: React.PropTypes.array,
+    todos: React.PropTypes.array
+  })
 }
-
-
-  Project.propTypes = {
-    project: React.PropTypes.shape({
-      projectID: React.PropTypes.string.isRequired,
-      prjName: React.PropTypes.string.isRequired,
-      prjDesc: React.PropTypes.string,
-      prjColor: React.PropTypes.string,
-      prjCode: React.PropTypes.string,
-      prjClient: React.PropTypes.string,
-      prjIcon: React.PropTypes.string,
-      prjLogo: React.PropTypes.string,
-      notes: React.PropTypes.array,
-      todos: React.PropTypes.array
-    })
-  }
 
 // Redux wiring
 const stateMap = (state) => ({

@@ -6,7 +6,7 @@ export default API;
 
 
 function kbdAPI(action, args, cb) {
-  let url = `/kbd-api/`;
+  let url = `/api/kbd`;
   if(args){
       let qString = args.map(function(el,idx){
            return "&" + el[0] + "=" + el[1];
