@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
 import {PopupBasic as ModalB} from '../ui/PopupBasic';
-//import ModalBasic from '../ui/ModalBasic';
-//import IconButton from '../ui/IconButton';
 import * as projectActions from '../../actions/projects';
-import {Popup,Icon} from 'semantic-ui-react';
-//import {ModalBS as Modal} from '../ui/ModalBS';
-//import {ModalPeteris as Modal} from '../ui/PeterisModal';
+import {Popup, Icon} from 'semantic-ui-react';
+
+
 
 
 class Project extends Ent {
@@ -42,25 +40,22 @@ class Project extends Ent {
   }
 
 
-  handleProjectClick(myProjectID) {
-    const {currentProjectID, setCurrentProject} = this.props;
+  handleProjectClick(projectID) {
+    const {project, setCurrentProject, currentProjectID} = this.props;
     debugger;
-    if (myProjectID !== currentProjectID) {
-      setCurrentProject(myProjectID);
+    if (project.projectID !== currentProjectID) {
+      setCurrentProject(project.projectID);
     } else {
       setCurrentProject(0);
     }
   }
 
   handleDelete(e) {
-    debugger;
     e.stopPropagation();
-    if(!confirm("Delete this project")) return;
-    const {project} = this.props;
-
+    if(!confirm("Delete this project?")) return;
     //debugger;
     // Clean up notes
-    project.notes.forEach(noteID => {
+    this.notes.forEach(noteID => {
       this.props.detachFromProject(this.projectID, noteID);
       this.props.deleteNote(noteID);
     });
@@ -68,6 +63,7 @@ class Project extends Ent {
     debugger;
     this.props.deleteProject(this.projectID);
   }
+
 
 
 
@@ -131,11 +127,8 @@ class Project extends Ent {
               />
             <span style={{ width: 100 }}><i className={this.prjIcon + " icon"}></i></span>
           </div>
-
-          <div className="project-delete"><Icon circular name='delete'
-               onClick={() => {
-                 debugger;
-                 this.handleDelete}} />
+          <div className="project-delete">
+            <button onClick={this.handleDelete}>x</button>
           </div>
         </div>
       </div>
@@ -146,55 +139,56 @@ class Project extends Ent {
     const {project, deleteProject, idx} = this.props;
     const projectID = project.projectID;
     let className = (this.className ? this.className : "") + " project";
-    let Project = this;
+    let editTrigger = <Icon name="edit"/>;
+    let editor = this.renderEditor();
     return (
       <div className={className} data-idx={idx}>
         <div className="project-header" style={{ background: project.prjColor }}>
-          <div >
-            <div onClick={() => Project.handleProjectClick(projectID)} className="project-name" >
+          <div onClick={() => this.handleProjectClick(projectID)}>
+            <div className="project-name" >
               {project.prjName}
               &nbsp; <i className={"icon " + project.prjIcon}></i>
             </div>
             <br />
             <div className="limit-text-100">id: {projectID}</div>
           </div>
-          <div className="project-edit"><ModalB content={this.renderEditor()} trigger={<Icon circular name='write'/>}></ModalB></div>
-          <div className="project-delete"><Icon circular name='delete'
-               onClick={() => {
-                 debugger;
-                 this.handleDelete}} />
+          <div className="project-edit">  
+                <Popup  hoverable basic trigger={editTrigger} on="click">
+                <Popup.Header>User Rating</Popup.Header>
+                <Popup.Content>
+                  {editor}
+                </Popup.Content>
+              </Popup> 
           </div>
-
+          <div className="project-delete">
+            <button onClick={this.handleDelete}>x</button>
+          </div>
         </div>
       </div>
     );
   }
 
 
-
 }
-
-
 
 let updateProject = null;  //Override with action handler from props
 
 
 
-
-Project.propTypes = {
-  project: React.PropTypes.shape({
-    projectID: React.PropTypes.string.isRequired,
-    prjName: React.PropTypes.string.isRequired,
-    prjDesc: React.PropTypes.string,
-    prjColor: React.PropTypes.string,
-    prjCode: React.PropTypes.string,
-    prjClient: React.PropTypes.string,
-    prjIcon: React.PropTypes.string,
-    prjLogo: React.PropTypes.string,
-    notes: React.PropTypes.array,
-    todos: React.PropTypes.array
-  })
-}
+  Project.propTypes = {
+    project: React.PropTypes.shape({
+      projectID: React.PropTypes.string.isRequired,
+      prjName: React.PropTypes.string.isRequired,
+      prjDesc: React.PropTypes.string,
+      prjColor: React.PropTypes.string,
+      prjCode: React.PropTypes.string,
+      prjClient: React.PropTypes.string,
+      prjIcon: React.PropTypes.string,
+      prjLogo: React.PropTypes.string,
+      notes: React.PropTypes.array,
+      todos: React.PropTypes.array
+    })
+  }
 
 // Redux wiring
 const stateMap = (state) => ({
