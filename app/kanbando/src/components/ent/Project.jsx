@@ -4,7 +4,7 @@ import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
 import {PopupBasic as ModalB} from '../ui/PopupBasic';
 import * as projectActions from '../../actions/projects';
-import {Popup, Icon} from 'semantic-ui-react';
+import {Popup, Icon, Confirm} from 'semantic-ui-react';
 
 
 
@@ -52,7 +52,9 @@ class Project extends Ent {
 
   handleDelete(e) {
     e.stopPropagation();
-    if(!confirm("Delete this project?")) return;
+    //if(!confirm("Delete this project?")) return;
+    let conf = <Confirm content="Delete this project?"/>;
+    let confirm = conf.show();
     //debugger;
     // Clean up notes
     this.notes.forEach(noteID => {
@@ -128,7 +130,7 @@ class Project extends Ent {
             <span style={{ width: 100 }}><i className={this.prjIcon + " icon"}></i></span>
           </div>
           <div className="project-delete">
-            <button onClick={this.handleDelete}>x</button>
+            <Icon className="delete" onClick={this.handleDelete}/>
           </div>
         </div>
       </div>
@@ -161,7 +163,7 @@ class Project extends Ent {
               </Popup> 
           </div>
           <div className="project-delete">
-            <button onClick={this.handleDelete}>x</button>
+            <Icon className="delete" onClick={this.handleDelete}/>
           </div>
         </div>
       </div>
