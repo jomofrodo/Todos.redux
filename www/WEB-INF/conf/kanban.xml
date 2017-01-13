@@ -1,14 +1,11 @@
 	<servlet>
-		<servlet-name>TodosRedux</servlet-name>
-		<servlet-class>com.netazoic.tdrdx.TodosRedux</servlet-class>
+		<servlet-name>KanbanDo</servlet-name>
+		<servlet-class>com.netazoic.kanban.KanbanDo</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>TodosRedux</servlet-name>
-		<url-pattern>/todos</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>TodosRedux</servlet-name>
-		<url-pattern>/todos/*</url-pattern>
+		<servlet-name>KanbanDo</servlet-name>
+		<url-pattern>/kbd</url-pattern>
+		<url-pattern>/kbd/*</url-pattern>
 	</servlet-mapping>
 

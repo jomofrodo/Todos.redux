@@ -32,14 +32,14 @@ public class KanbanDo extends Todos {
 	RouteAction homeHdlr = new HomeHdlr();
 
 	//creating enum HOME TemPLate?
-	public  enum KBD_NTP{
+	public  enum KBD_F{
 		Home("README.md","Todos/Redux Read Me"),
 		;
 		//Why store template path and description into variables?
-		String tplPath;
+		String fPath;
 		String desc;
-		KBD_NTP(String t, String d){
-			tplPath = t;
+		KBD_F(String t, String d){
+			fPath = t;
 			desc = d;
 		}
 	}
@@ -100,7 +100,7 @@ public class KanbanDo extends Todos {
 		public void routeAction(HttpServletRequest request,
 				HttpServletResponse response, Connection con, HttpSession session)
 						throws IOException, Exception {
-			String tPath = KBD_NTP.Home.tplPath;
+			String tPath = KBD_F.Home.fPath;
 			Map<String,Object> map = new HashMap<String,Object>();
 			parseOutput(map, tPath, response);
 		}	
