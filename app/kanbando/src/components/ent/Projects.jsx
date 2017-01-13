@@ -1,5 +1,5 @@
 import React from 'react';
-import Project from './Project.jsx';
+import ProjectCard from './ProjectCard.jsx';
 
 
 export default ({projects}) => {
@@ -7,7 +7,7 @@ export default ({projects}) => {
   return (
 
     <div className="projects sortable-project">{projects.map((project,idx) =>
-           <Project className="project" key={project.projectID} idx={idx} project={project} />
+           <ProjectCard className="project" key={project.projectID} idx={idx} project={project} />
     )}</div>
   );
 }

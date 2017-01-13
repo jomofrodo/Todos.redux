@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Ent from '../ent/Ent';
 import Projects from '../ent/Projects.jsx';
 import Project from '../ent/Project.jsx';
+import ProjectCard from '../ent/ProjectCard';
 import { createProject, updateProjectSort } from '../../actions/projects';
 import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
 import API from '../../libs/API';

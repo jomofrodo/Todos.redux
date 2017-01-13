@@ -1,24 +1,42 @@
 import React, { Component } from 'react'
-import { Button, Modal } from 'semantic-ui-react'
+import { Button, Icon, Modal } from 'semantic-ui-react'
 
 class ModalBasic extends Component {
   state = { open: false }
 
-  show = (size) => () => this.setState({ size, open: true })
-  close = () => this.setState({ open: false })
+  show = (size) => () => {
+    debugger;
+    this.setState({ size, open: true })
+  }
+  close = () =>{
+    this.setState({ open: false })
+  } 
+
+  setContent = ()=> {
+      //override in extending class
+  }
+  flgOpen;
+  componentWillReceiveProps(){
+    this.flgOpen = this.props.flgOpen;
+    if(this.flgOpen) this.setState({open: true});
+  }
 
   render() {
-    ////debugger;
-    const { open, size } = this.state
-    const prompt = this.props.btnPrompt;
+    //this.flgOpen = this.props.flgOpen;
+    let { open, size } = this.state
+    let btnPrompt = this.props.btnPrompt;
+    let btnIcon = this.props.btnIcon;
     const header = this.props.header;
-    const content = this.props.content;
+    let content = this.props.content;
+    if(!content) content = this.props.children;
+    if(!content) content = this.setContent();
     const actions = this.props.actions;
 
     return (
       <div>
-        <Button onClick={this.show('small')}>{prompt}</Button>
-
+      {btnIcon &&
+        <Icon className={btnIcon} onClick={this.show('small')}/>
+      }
         <Modal size={size} open={open} onClose={this.close}>
           <Modal.Header>
             {header}

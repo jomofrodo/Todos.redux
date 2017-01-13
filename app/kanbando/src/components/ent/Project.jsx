@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
-import {PopupBasic as ModalB} from '../ui/PopupBasic';
+import { PopupBasic as ModalB } from '../ui/PopupBasic';
 import * as projectActions from '../../actions/projects';
-import {Popup, Icon, Confirm} from 'semantic-ui-react';
-
+import { Popup, Icon, Confirm } from 'semantic-ui-react';
+import Modal from 'react-modal';
 
 
 
 class Project extends Ent {
-  state = { editing: false };
+
   projectID;
   prjName;
   prjDesc;
@@ -25,7 +25,6 @@ class Project extends Ent {
   className;
   style;
 
-
   constructor(props) {
     super(props);
     const {project} = this.props;
@@ -37,7 +36,10 @@ class Project extends Ent {
     this.assignProperties(project);
     //let propMap = this.getPropMap();
     this.updateProject = this.props.updateProject;
+
   }
+
+
 
 
   handleProjectClick(projectID) {
@@ -52,11 +54,9 @@ class Project extends Ent {
 
   handleDelete(e) {
     e.stopPropagation();
-    //if(!confirm("Delete this project?")) return;
-    let conf = <Confirm content="Delete this project?"/>;
-    let confirm = conf.show();
     //debugger;
     // Clean up notes
+    debugger;
     this.notes.forEach(noteID => {
       this.props.detachFromProject(this.projectID, noteID);
       this.props.deleteNote(noteID);
@@ -81,95 +81,12 @@ class Project extends Ent {
   }
 
   render() {
-    const { format } = this.props;
-    switch (format) {
-      case "full":
-        return this.renderEditor();
-      default:
-        return this.renderProjectCard();
-    }
-  }
-
-
-  renderEditor = () => {
-    const { project, updateProject, deleteProject} = this.props;
-
-    this.resetObject();
-    this.assignProperties(project);
-
     return (
-      <div className="project project-editor"  >
-        <div className="project-header">
-          <div className="ui labeled input">
-            <div className="ui label">
-              name:
-            </div>
-            <Editable1 id="prjName" name="prjName"
-              className="project-name" flgEditing={this.flgEditing}
-              onValueClick={() => updateProject({ projectID: this.projectID, flgEditing: true })}
-              value={this.prjName}
-              onEdit={prjName => updateProject({ projectID: this.projectID, prjName, flgEditing: false })} />
-          </div>
-          <div className="ui labeled input">
-            <div className="ui label">id: </div>
-            <div className="ui input value">{this.projectID}</div>
-          </div>
-          <div className="ui labeled input">
-            <div className="ui label">color: </div>
-            <input type="color" name="prjColor" id="prjColor" value={this.prjColor}
-              onChange={this.handleUpdate}
-              />
-            <span style={{ width: 100, background: this.prjColor }}></span>
-          </div>
-          <div className="ui labeled input">
-            <div className="ui label">icon: </div>
-            <input type="text" name="prjIcon" id="prjIcon" value={this.prjIcon}
-              style={{ width: 100 }}
-              onChange={this.handleUpdate}
-              />
-            <span style={{ width: 100 }}><i className={this.prjIcon + " icon"}></i></span>
-          </div>
-          <div className="project-delete">
-            <Icon className="delete" onClick={this.handleDelete}/>
-          </div>
-        </div>
-      </div>
+      <div>nadad</div>
+      //override methodName(params) {
+
     );
   }
-
-  renderProjectCard() {
-    const {project, deleteProject, idx} = this.props;
-    const projectID = project.projectID;
-    let className = (this.className ? this.className : "") + " project";
-    let editTrigger = <Icon name="edit"/>;
-    let editor = this.renderEditor();
-    return (
-      <div className={className} data-idx={idx}>
-        <div className="project-header" style={{ background: project.prjColor }}>
-          <div onClick={() => this.handleProjectClick(projectID)}>
-            <div className="project-name" >
-              {project.prjName}
-              &nbsp; <i className={"icon " + project.prjIcon}></i>
-            </div>
-            <br />
-            <div className="limit-text-100">id: {projectID}</div>
-          </div>
-          <div className="project-edit">  
-                <Popup  hoverable basic trigger={editTrigger} on="click">
-                <Popup.Header>User Rating</Popup.Header>
-                <Popup.Content>
-                  {editor}
-                </Popup.Content>
-              </Popup> 
-          </div>
-          <div className="project-delete">
-            <Icon className="delete" onClick={this.handleDelete}/>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
 
 }
 
@@ -177,29 +94,22 @@ let updateProject = null;  //Override with action handler from props
 
 
 
-  Project.propTypes = {
-    project: React.PropTypes.shape({
-      projectID: React.PropTypes.string.isRequired,
-      prjName: React.PropTypes.string.isRequired,
-      prjDesc: React.PropTypes.string,
-      prjColor: React.PropTypes.string,
-      prjCode: React.PropTypes.string,
-      prjClient: React.PropTypes.string,
-      prjIcon: React.PropTypes.string,
-      prjLogo: React.PropTypes.string,
-      notes: React.PropTypes.array,
-      todos: React.PropTypes.array
-    })
-  }
+Project.propTypes = {
+  project: React.PropTypes.shape({
+    projectID: React.PropTypes.string.isRequired,
+    prjName: React.PropTypes.string.isRequired,
+    prjDesc: React.PropTypes.string,
+    prjColor: React.PropTypes.string,
+    prjCode: React.PropTypes.string,
+    prjClient: React.PropTypes.string,
+    prjIcon: React.PropTypes.string,
+    prjLogo: React.PropTypes.string,
+    notes: React.PropTypes.array,
+    todos: React.PropTypes.array
+  })
+}
 
-// Redux wiring
-const stateMap = (state) => ({
-  projects: state.projects,
-  currentProjectID: state.currentProjectID
-});
-const actionMap = { ...projectActions };
-Project = connect(stateMap, actionMap)(Project);  //Wire it up as a Redux container
-// End of Redux wiring
+
 
 //Export: include reducer in export for inclusion in rootReducer
 export { Project as default }
