@@ -40,8 +40,6 @@ class Project extends Ent {
   }
 
 
-
-
   handleProjectClick(projectID) {
     const {project, setCurrentProject, currentProjectID} = this.props;
     debugger;
@@ -56,17 +54,15 @@ class Project extends Ent {
     e.stopPropagation();
     //debugger;
     // Clean up notes
-    debugger;
+    //debugger;
     this.notes.forEach(noteID => {
       this.props.detachFromProject(this.projectID, noteID);
       this.props.deleteNote(noteID);
     });
 
-    debugger;
+    //debugger;
     this.props.deleteProject(this.projectID);
   }
-
-
 
 
   handleUpdate(evt) {
@@ -113,3 +109,8 @@ Project.propTypes = {
 
 //Export: include reducer in export for inclusion in rootReducer
 export { Project as default }
+
+
+
+// WEBPACK FOOTER //
+// src/components/ent/Project.jsx

@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import {Icon} from 'semantic-ui-react';
 
 
 
@@ -32,7 +33,7 @@ let customStyles = {
 };
 
 
-class ReactModal extends React.Component {
+export default class ReactModal extends React.Component {
   constructor() {
     super();
 
@@ -57,17 +58,15 @@ class ReactModal extends React.Component {
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({modalIsOpen: false, flgClose: true});
   }
 
-
-  componentWillReceiveProps(){
-    this.flgOpen = this.props.flgOpen;
-    if(this.flgOpen) this.setState({modalIsOpen: true});
-  }
 
   render() {
-    let { modalIsOpen, size } = this.state
+    let { modalIsOpen, size, flgClose } = this.state
+    let flgOpen = this.props.flgOpen;
+    if(flgOpen) modalIsOpen = flgOpen;  //Override
+    if(flgClose) modalIsOpen = false;  //Override for the override
     let btnPrompt = this.props.btnPrompt;
     let btnIcon = this.props.btnIcon;
     const header = this.props.header;
@@ -78,6 +77,7 @@ class ReactModal extends React.Component {
     return (
       <div>
       {btnPrompt &&   <button onClick={this.openModal}>{btnPrompt}</button>  }
+      {btnIcon && <Icon className={btnIcon} onClick={this.openModal}/>}
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={this.afterOpenModal}

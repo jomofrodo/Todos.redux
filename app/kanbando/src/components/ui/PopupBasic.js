@@ -7,11 +7,10 @@ class PopupBasic extends Component {
     return false;
   }
   render() {
-    debugger;
     const prompt = this.props.btnPrompt;
     const header = this.props.header;
     let content = this.props.content;
-    if(!content) content = this.children;
+    if(!content) content = this.props.children;
     if(!content) content = this.setContent();
     let trigger = this.props.trigger;
     if(trigger==null){

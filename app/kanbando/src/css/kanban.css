@@ -191,3 +191,7 @@ div.project-editor div.ui.label { min-width:80px;}
           max-width:100px;
           text-overflow:ellipsis;}
 
+
+/*  Project  Editor      */
+
+div.project-editor div.ui.labeled.input {float:left;clear:left;}

@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
-import { PopupBasic as ModalB } from '../ui/PopupBasic';
+import PopupBasic from '../ui/PopupBasic';
 import * as projectActions from '../../actions/projects';
 import { Popup, Icon, Confirm } from 'semantic-ui-react';
 import Project from './Project';
+import ProjectEditor from './ProjectEditor';
 import Modal from 'react-modal';
-import ModalEx from '../ui/ModalEx';
+
 import ModalBasic from '../ui/ModalBasic';
 import ReactModal from '../ui/ReactModal';
+import TetherBasic from '../ui/TetherBasic';
 
 
 
@@ -19,7 +21,7 @@ class ProjectCard extends Project {
 
   constructor(props) {
     super(props);
-   
+
     this.state = {
       editing: false,
       modalIsOpen: false
@@ -30,17 +32,18 @@ class ProjectCard extends Project {
   openDModal() {
     this.setState({ modalIsOpen: true });
   }
-  handleDelete(e){
+  handleDelete(e) {
     super.handleDelete(e);
-    
+
   }
 
 
   closeDModal() { this.setState({ modalIsOpen: false }) }
 
   renderEditor() {
+    const {project} = this.props;
     return (
-      <div>Editor goes here</div>
+      <ProjectEditor project={project}/>
     )
   }
 
@@ -50,8 +53,7 @@ class ProjectCard extends Project {
     let className = (this.className ? this.className : "") + " project";
     let editTrigger = <Icon name="edit" />;
     let editor = this.renderEditor();
-    const flgOpen  = this.state.modalIsOpen;
-
+    const flgOpen = this.state.modalIsOpen;
 
     return (
       <div className={className} data-idx={idx}>
@@ -64,22 +66,26 @@ class ProjectCard extends Project {
             <br />
             <div className="limit-text-100">id: {projectID}</div>
           </div>
+          <div className="project-delete">
+             <TetherBasic iconName="info" trigger={<Icon name="info"/>}>
+                  <div>{project.prjName}</div>
+                  <ProjectEditor project={project}/>
+            </TetherBasic>
+          </div> 
           <div className="project-edit">
             <Popup hoverable basic trigger={editTrigger} on="click">
-              <Popup.Header>Project Info</Popup.Header>
+              <Popup.Header>{project.prjName}</Popup.Header>
               <Popup.Content>
                 {editor}
               </Popup.Content>
             </Popup>
           </div>
           <div className="project-delete">
-            <Icon className="delete" onClick={this.openDModal} />
-           <ModalBasic flgOpen={flgOpen}>
-           Delete this project?
-           <Icon className="checkmark" onClick={this.handleDelete}/>
-           <Icon className="bug" onClick={this.closeDModal}/>
-           
-           </ModalBasic>
+            <PopupBasic  trigger={<Icon name="delete" />}>
+              Delete this project?
+           <Icon className="checkmark" onClick={this.handleDelete} />
+              <Icon className="bug" onClick={this.closeDModal} />
+            </PopupBasic>
           </div>
         </div>
       </div>
