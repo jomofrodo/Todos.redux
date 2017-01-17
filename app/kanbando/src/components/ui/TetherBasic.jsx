@@ -11,6 +11,7 @@ export default class TetherBasic extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
   toggle = () => {
+    //debugger;
     const { isOpen } = this.state
     this.setState({isOpen: !isOpen});
   }
@@ -33,10 +34,11 @@ export default class TetherBasic extends React.Component {
       >
         { /* First child: This is what the item will be tethered to */ }
         { <Icon name={iconName} onClick={this.toggle}/> } 
+
         { /* Second child: If present, this item will be tethered to the the first child */ }
         {
           isOpen &&
-          <div>
+          <div onMouseLeave={this.toggle}>
           {content}
           </div>
         }

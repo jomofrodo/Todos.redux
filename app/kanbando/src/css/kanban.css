@@ -151,7 +151,7 @@ button, input, optgroup, select, textarea {
   margin-right: 0.5em;
 }
 
-.project-delete, .project-edit{
+.project-delete, .project-edit, .project-save{
   float: right;
 
   margin-left: 0.5em;
@@ -161,7 +161,7 @@ button, input, optgroup, select, textarea {
 .project-header:hover .project-delete {
   visibility: visible;
 }
-.project-header:hover .project-edit {
+.project-header:hover .project-edit, .project-header:hover .project-save {
   visibility: visible;
 }
 
@@ -195,3 +195,13 @@ div.project-editor div.ui.label { min-width:80px;}
 /*  Project  Editor      */
 
 div.project-editor div.ui.labeled.input {float:left;clear:left;}
+div.project-editor input {width:300px;}
+div.project-editor div.ui.input.value {width:300px;}
+div.project-editor input#prjColor{width:200px;}
+
+div.basic-tether{background:#C0C0C0;color:white;padding:10px;}
+
+.project-column-enter {  opacity: 0.01; }
+.project-column-enter.project-column-enter-active {  opacity: 1; transition: opacity 500ms ease-in;}
+.project-column-leave {  opacity: 1; }
+.project-column-leave.project-column-leave-active {  opacity: 0.01;  transition: opacity 300ms ease-in; }

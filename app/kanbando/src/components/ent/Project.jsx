@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
@@ -42,17 +43,15 @@ class Project extends Ent {
 
   handleProjectClick(projectID) {
     const {project, setCurrentProject, currentProjectID} = this.props;
-    debugger;
     if (project.projectID !== currentProjectID) {
       setCurrentProject(project.projectID);
-    } else {
+     } else {
       setCurrentProject(0);
     }
   }
 
   handleDelete(e) {
     e.stopPropagation();
-    //debugger;
     // Clean up notes
     //debugger;
     this.notes.forEach(noteID => {
@@ -64,17 +63,6 @@ class Project extends Ent {
     this.props.deleteProject(this.projectID);
   }
 
-
-  handleUpdate(evt) {
-    // debugger;
-    const fldVal = evt.target.value;
-    const fldName = evt.target.name;
-    let params = {};
-    params.projectID = this.projectID;
-    params[fldName] = fldVal;
-    //this.props.updateProject(params);
-    this.updateProject(params);
-  }
 
   render() {
     return (

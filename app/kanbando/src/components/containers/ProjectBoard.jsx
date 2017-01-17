@@ -1,12 +1,15 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Ent from '../ent/Ent';
 import Projects from '../ent/Projects.jsx';
 import Project from '../ent/Project.jsx';
 import ProjectCard from '../ent/ProjectCard';
-import { createProject, updateProjectSort } from '../../actions/projects';
-import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
+import ProjectEditor from '../ent/ProjectEditor';
+import { createProject, updateProjectSort, setCurrentProject } from '../../actions/projects';
+import { Sidebar, Segment, Menu, Icon, Grid } from 'semantic-ui-react';
 import API from '../../libs/API';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import $ from 'jquery';
 window.jQuery = $;
@@ -20,8 +23,13 @@ class ProjectBoard extends Ent {
   }
 
   handleCreateProject() {
-    const {createProject} = this.props;
-    createProject({ prjName: 'New project' });
+    const {createProject, setCurrentProject } = this.props;
+    const projectAction = createProject({ prjName: 'New project' });
+    const project = projectAction.project;
+    debugger;
+    setCurrentProject(project.projectID);
+    //const div = ReactDOM.findDOMNode(project);
+    //debugger;
   }
 
   componentDidMount() {
@@ -36,8 +44,8 @@ class ProjectBoard extends Ent {
         });
         //convert React/jQuery monstrosity to POJ
         let obj = [];
-        for(let idx=0;idx<currentSort.length;idx++){
-            obj[idx] = currentSort[idx];
+        for (let idx = 0; idx < currentSort.length; idx++) {
+          obj[idx] = currentSort[idx];
         }
         currentSort = obj;
         //currentSort = currentSort.trim().split(" ").join(",");
@@ -60,7 +68,12 @@ class ProjectBoard extends Ent {
 
     const {projects, currentProjectID} = this.props;
     //const { sidebarVisible } = this.state;
-    const sidebarVisible = currentProjectID ? true : false;
+    //let sidebarVisible = currentProjectID ? true : false;
+    let sidebarVisible = false;
+    let gridColumns = 2;
+    let centerCols = 10;
+    let projectCols = 1;
+
     let currentProject = null;
     if (currentProjectID) {
       let tempPrj = null, idx = 0;
@@ -72,7 +85,13 @@ class ProjectBoard extends Ent {
         }
         idx++;
       }
-
+      gridColumns = 3;
+      centerCols = 8;
+      projectCols= 6;
+    } else {
+      gridColumns = 2;
+      centerCols = 12;
+      projectCols= 1;
     }
     return (
       <div>
@@ -91,18 +110,38 @@ class ProjectBoard extends Ent {
             </Menu.Item>
         </Menu>
         <Sidebar.Pushable as={Segment}>
-          <Sidebar as={Segment} animation='scale down' direction='right' width='wide' visible={sidebarVisible} icon="labeled" vertical>
+          <Sidebar as={Segment} animation='scale down' direction='right' width='very thin' visible={sidebarVisible} icon="labeled" vertical>
             {currentProject &&
-              <Project project={currentProject} format="full" />
+              <Segment>Foo</Segment>
             }
           </Sidebar>
           <Sidebar.Pusher>
-            <Segment basic>
-              <div>
 
-                <Projects projects={projects} />
-              </div>
-            </Segment>
+            <Grid id="grid-projects" columns={this.gridColumns} divided>
+              <Grid.Row stretched >
+
+                <Grid.Column width={1} key="col1">
+                  <Segment>1</Segment>
+                </Grid.Column>
+                <Grid.Column width={centerCols} key="centerCol">
+
+                  <Projects projects={projects} />
+                </Grid.Column>
+
+                <Grid.Column id="colProject" width={projectCols} >
+
+                  <ReactCSSTransitionGroup
+                    transitionName="project-column"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={300}>
+                    {currentProject &&
+                      <ProjectEditor project={currentProject}  key="projectCol"/>
+                    }
+                  </ReactCSSTransitionGroup>
+                </Grid.Column>
+
+              </Grid.Row>
+            </Grid>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </div>
@@ -116,7 +155,7 @@ const stateMap = (state) => ({
   projects: state.projects,
   currentProjectID: state.currentProjectID
 });
-const actionMap = { createProject, updateProjectSort };
+const actionMap = { createProject, updateProjectSort , setCurrentProject};
 ProjectBoard = connect(stateMap, actionMap)(ProjectBoard);  //Wire it up as a Redux container
 // End of Redux wiring
 

@@ -43,7 +43,7 @@ class ProjectCard extends Project {
   renderEditor() {
     const {project} = this.props;
     return (
-      <ProjectEditor project={project}/>
+      <ProjectEditor project={project} />
     )
   }
 
@@ -51,7 +51,7 @@ class ProjectCard extends Project {
     const {project, deleteProject, idx} = this.props;
     const projectID = project.projectID;
     let className = (this.className ? this.className : "") + " project";
-    let editTrigger = <Icon name="edit" />;
+    let editTrigger = <Icon name="info" />;
     let editor = this.renderEditor();
     const flgOpen = this.state.modalIsOpen;
 
@@ -67,25 +67,28 @@ class ProjectCard extends Project {
             <div className="limit-text-100">id: {projectID}</div>
           </div>
           <div className="project-delete">
-             <TetherBasic iconName="info" trigger={<Icon name="info"/>}>
-                  <div>{project.prjName}</div>
-                  <ProjectEditor project={project}/>
-            </TetherBasic>
-          </div> 
-          <div className="project-edit">
-            <Popup hoverable basic trigger={editTrigger} on="click">
-              <Popup.Header>{project.prjName}</Popup.Header>
-              <Popup.Content>
-                {editor}
-              </Popup.Content>
-            </Popup>
-          </div>
-          <div className="project-delete">
-            <PopupBasic  trigger={<Icon name="delete" />}>
+            <PopupBasic trigger={<Icon name="delete" />}>
               Delete this project?
            <Icon className="checkmark" onClick={this.handleDelete} />
               <Icon className="bug" onClick={this.closeDModal} />
             </PopupBasic>
+          </div>
+          <div className="project-edit">
+            <TetherBasic iconName="info" trigger={<Icon name="info" />}>
+              <div>{project.prjName}</div>
+              <ProjectEditor project={project} />
+            </TetherBasic>
+          </div>
+          <div className="project-edit">
+            <Icon name="edit" onClick={() => this.handleProjectClick(projectID)} />
+          </div>
+          <div className="project-edit">
+            <Popup hoverable basic trigger={editTrigger} on="click">
+              <Popup.Header>{project.prjName}</Popup.Header>
+              <Popup.Content>
+                <ProjectEditor project={project} />
+              </Popup.Content>
+            </Popup>
           </div>
         </div>
       </div>
