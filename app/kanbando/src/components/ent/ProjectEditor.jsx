@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
-import { PopupBasic as ModalB } from '../ui/PopupBasic';
 import * as projectActions from '../../actions/projects';
+import { createTodo, createTodoAPI } from '../../actions/todos';
 import TetherBasic from '../ui/TetherBasic';
-import { Popup, Icon, Confirm } from 'semantic-ui-react';
+import { Popup, Icon, Menu, List, Grid, Image, Radio, Input } from 'semantic-ui-react';
 import Modal from 'react-modal';
 import Project from './Project';
+import TodoCard from './TodoCard';
+import Todo from './Todo';
+import Todos from './Todos';
 
 
 
@@ -21,8 +24,16 @@ class ProjectEditor extends Project {
     const {project} = this.props;
     //let propMap = this.getPropMap();
     this.updateProject = this.props.updateProject;
+    this.createTodo = this.props.createTodo;
+    this.createTodoAPI = this.props.createTodoAPI;
+    const projectID = this.projectID;
+
   }
 
+  createTodoHdlr(projectID) {
+    //const { createTodo } = this.props;
+    const todo = this.createTodo( projectID,  'New task');
+  }
 
   selectDiv(div) {
     debugger;
@@ -53,18 +64,26 @@ class ProjectEditor extends Project {
 
 
   render() {
-    const { project, updateProject, deleteProject} = this.props;
-
+    const { project, todos, updateProject, deleteProject} = this.props;
+    //console.debug("props: " + this.props);
     //this.resetObject();
+
     //this.assignProperties(project);
+    let prjTodosIdx = project.todos || new Array();
+    let prjTodos = prjTodosIdx.map(function(id,idx){
+      return todos.find(function(todo,idx){
+        return(todo.todoID == id)
+      });
+    });
+
 
     return (
-      <div className="project project-editor" ref="(div) => {this.selectDiv(div);}" key={project.projectID} >
+      <div className="project project-editor" key={project.projectID} >
         <div className="project-header">
           <div className="ui labeled input">
             <div className="ui label">
               name:
-            </div>
+        </div>
             <Editable1 id="prjName" name="prjName"
               className="project-name" flgEditing={project.flgEditing}
               onValueClick={() => updateProject({ projectID: project.projectID, flgEditing: true })}
@@ -97,13 +116,33 @@ class ProjectEditor extends Project {
           </div>
           <div className="project-delete">
             <TetherBasic trigger={<Icon name="delete" />} iconName="delete" >
-            <div className="basic-tether">
-              Delete this project?
-              <Icon className="checkmark" onClick={this.handleDelete.bind(this)} />
-              <Icon className="bug" onClick={this.toggle} />
-            </div>
+              <div className="basic-tether">
+                Delete this project?
+        <Icon className="checkmark" onClick={this.handleDelete.bind(this)} />
+                <Icon className="bug" onClick={this.toggle} />
+              </div>
             </TetherBasic>
           </div>
+        </div>
+        <div className="project-Todos">
+          <Menu secondary>
+            <Menu.Item name='tasks' onClick={this.toggleSidebar}>
+              <Icon name='tasks' />
+              Todos
+        </Menu.Item>
+            <Menu.Item name="add" onClick={()=> this.createTodoHdlr(project.projectID)}>
+              <Icon name='add' />
+              Add new todo
+        </Menu.Item>
+          </Menu>
+          <Grid padded >
+                <Grid.Row><Grid.Column><div className="todos sortable-todos">{prjTodos.map((todo,idx) => 
+                  <TodoCard className="todo" projectID={project.projectID} key={idx} idx={idx} todo={todo} />
+                
+              )}</div></Grid.Column></Grid.Row>
+          </Grid>
+
+
         </div>
       </div>
     );
@@ -131,9 +170,11 @@ ProjectEditor.propTypes = {
 // Redux wiring
 const stateMap = (state) => ({
   projects: state.projects,
+  notes: state.notes,
+  todos: state.todos,
   currentProjectID: state.currentProjectID
 });
-const actionMap = { ...projectActions };
+const actionMap = { ...projectActions, createTodo, createTodoAPI };
 ProjectEditor = connect(stateMap, actionMap)(ProjectEditor);  //Wire it up as a Redux container
 // End of Redux wiring
 

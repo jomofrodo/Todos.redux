@@ -4,7 +4,6 @@ import { Input } from 'semantic-ui-react';
 export default class Editable1 extends React.Component {
   render() {
     const { flgEditing} = this.props;
-
     let renderer = (flgEditing ? this.renderEdit : this.renderValue);
     return (
       renderer()
@@ -27,9 +26,11 @@ export default class Editable1 extends React.Component {
     const className = this.props.className;
     const myClasses = "value sortof-disabled";
     let combinedClasses = className + " " + myClasses;
+    //debugger;
     return (
       <Input type="text" className={combinedClasses}
         readOnly="true"
+        onFocus = {this.props.onValueClick}
         onClick={this.props.onValueClick} value={this.props.value} />
     );
   };

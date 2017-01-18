@@ -195,7 +195,7 @@ div.project-editor div.ui.label { min-width:80px;}
 /*  Project  Editor      */
 
 div.project-editor div.ui.labeled.input {float:left;clear:left;}
-div.project-editor input {width:300px;}
+div.project-editor input[type=text] {width:300px;}
 div.project-editor div.ui.input.value {width:300px;}
 div.project-editor input#prjColor{width:200px;}
 

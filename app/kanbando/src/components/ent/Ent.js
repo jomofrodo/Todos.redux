@@ -1,5 +1,4 @@
 import React from 'react';
-import * as types from '../../constants/ActionTypes';
 import Nit from './_Nit';
 
 export default class Ent extends React.Component {

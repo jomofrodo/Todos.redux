@@ -41,6 +41,7 @@ class Project extends Ent {
   }
 
 
+
   handleProjectClick(projectID) {
     const {project, setCurrentProject, currentProjectID} = this.props;
     if (project.projectID !== currentProjectID) {
@@ -53,7 +54,7 @@ class Project extends Ent {
   handleDelete(e) {
     e.stopPropagation();
     // Clean up notes
-    //debugger;
+    debugger;
     this.notes.forEach(noteID => {
       this.props.detachFromProject(this.projectID, noteID);
       this.props.deleteNote(noteID);
