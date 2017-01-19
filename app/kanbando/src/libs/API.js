@@ -1,31 +1,51 @@
 /* eslint-disable no-undef */
 const API = {
-  updateProjectSort
+  updateProjectSort,
+  createTodo, deleteTodo, updateTodo, updateTodoSort
 };
 export default API;
 
 
 function kbdAPI(action, args, cb) {
   let url = `/api/kbd`;
-  if(args){
-      let qString = args.map(function(el,idx){
-           return "&" + el[0] + "=" + el[1];
-      });
-      url +="?pAction=" + action;
-      for(let i =0; i< qString.length; i++){
-        url += qString[i]
-      }
-  }else{
-      url = `${url}/${action}`;
+  if (args) {
+    let qString = args.map(function (el, idx) {
+      return "&" + el[0] + "=" + el[1];
+    });
+    url += "?pAction=" + action;
+    for (let i = 0; i < qString.length; i++) {
+      url += qString[i]
+    }
+  } else {
+    url = `${url}/${action}`;
   }
   return fetch(url, {
     accept: 'application/json',
   }).then(checkStatus)
     .then(parseJSON);
-   // .then(cb);
+  // .then(cb);
 }
 
 
+function createTodo(todo) {
+  const action = "UpdateTodo";
+  return kbdAPI(action, todo);
+}
+function deleteTodo(todo) {
+  const action = "DeleteTodo";
+  return kbdAPI(action, todo);
+}
+
+
+function updateTodo(todo) {
+  const action = "UpdateTodo";
+  return kbdAPI(action, todo);
+}
+
+function updateTodoSort(currentSort, cb) {
+  const action = "UpdateTodoSort/currentSort/" + currentSort;
+  return kbdAPI(action, null, cb);
+}
 function updateProjectSort(currentSort, cb) {
   const action = "UpdateSectionSort/currentSort/" + currentSort;
   return kbdAPI(action, null, cb);

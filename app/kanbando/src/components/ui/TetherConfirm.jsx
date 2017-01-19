@@ -22,6 +22,8 @@ export default class TetherBasic extends React.Component {
     let content = this.props.children;
     let actualTrigger = Object.assign({},trigger);
     let iconName = this.props.iconName;
+    let onConfirm = this.props.onConfirm;
+    iconName = this.props.iconName || "check";
     //actualTrigger = Object.assign(actualTrigger, {onClick: this.toggle});
     actualTrigger.onClick = this.toggle;
     return(
@@ -40,6 +42,8 @@ export default class TetherBasic extends React.Component {
           isOpen &&
           <div onMouseLeave={this.toggle} className="basic-tether">
           {content}
+          <Icon name="check" onClick={this.onConfirm} title="yes, confirm this action"/>
+          <Icon name="cancel" onClick={this.toggle} title="no, cancel this action"/>
           </div>
         }
       </TetherComponent>

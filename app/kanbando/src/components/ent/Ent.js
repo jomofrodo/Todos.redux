@@ -26,6 +26,8 @@ export default class Ent extends React.Component {
             this[prop] = this[prop].bind(this);
         }
 
+        this._bind = this._bind.bind(this);
+
 
 
     }

@@ -6,9 +6,12 @@ import configureStore from './store/configureStore';
 //import 'todomvc-app-css/index.css';
 import storage from './libs/storage';
 import 'jquery-ui/themes/base/sortable.css';
-import 'jquery-ui/themes/base/tabs.css';
+//import 'jquery-ui/themes/base/tabs.css';
 import 'jquery-ui/ui/widgets/sortable';
-import 'jquery-ui/ui/widgets/tabs';
+import  'jquery';
+//window.jQuery = $;
+
+//import 'jquery-ui/ui/widgets/tabs';
 
 const APP_STORAGE = 'kanbando';
 

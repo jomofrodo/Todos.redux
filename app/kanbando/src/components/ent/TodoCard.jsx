@@ -11,13 +11,13 @@ import Todo from './Todo';
 class TodoCard extends Todo{
 
 	render(){
-		const {todo, projectID, updateTodo} = this.props;
+		const {todo, projectID, updateTodo, idx} = this.props;
 		if(!todo) return null;
 		let todoID = todo.todoID;
 
 		return(
 
-			<div className="todo-card">
+			<div className="todo-card" data-idx={idx}>
 				<Input type="checkbox" name="flgCompleted" checked={this.flgCompleted}
    	               onChange={() => updateTodo({todoID,flgCompleted:this.checked})}
 				/>

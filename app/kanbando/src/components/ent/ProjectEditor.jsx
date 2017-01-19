@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import Ent from './Ent';
 import Editable1 from './Editable.1.jsx';
 import * as projectActions from '../../actions/projects';
-import { createTodo, createTodoAPI } from '../../actions/todos';
-import TetherBasic from '../ui/TetherBasic';
+import { createTodo, updateTodoSort } from '../../actions/todos';
+import TetherConfirm from '../ui/TetherConfirm';
 import { Popup, Icon, Menu, List, Grid, Image, Radio, Input } from 'semantic-ui-react';
 import Modal from 'react-modal';
 import Project from './Project';
 import TodoCard from './TodoCard';
 import Todo from './Todo';
 import Todos from './Todos';
+import $ from 'jquery';
+import '../../css/kanban.css';
 
 
 
@@ -25,14 +27,35 @@ class ProjectEditor extends Project {
     //let propMap = this.getPropMap();
     this.updateProject = this.props.updateProject;
     this.createTodo = this.props.createTodo;
-    this.createTodoAPI = this.props.createTodoAPI;
     const projectID = this.projectID;
 
   }
 
+      componentDidMount() {
+        //const {updateProjectSort} = this.props;
+        const cb = this.updateTodoSort;
+        $(".sortable-todos").sortable({		// jquery-ui sortable
+            update: function(evt, ui) {
+                const elms = ui.item.parent().find(".todo-card");
+                let currentSort = "";
+                currentSort = elms.map(function(el, idx) {
+                    return $(this).attr("data-idx");
+                });
+                //convert React/jQuery monstrosity to POJ
+                let obj = [];
+                for (let idx = 0; idx < currentSort.length; idx++) {
+                    obj[idx] = currentSort[idx];
+                }
+                currentSort = obj;
+                //currentSort = currentSort.trim().split(" ").join(",");
+                cb(obj);
+            }
+        });
+    }
+
   createTodoHdlr(projectID) {
     //const { createTodo } = this.props;
-    const todo = this.createTodo( projectID,  'New task');
+    const todo = this.createTodo(projectID, 'New task');
   }
 
   selectDiv(div) {
@@ -62,17 +85,22 @@ class ProjectEditor extends Project {
     this.handleProjectClick(this.projectID);
   }
 
+  updateTodoSort(sortKeys){
+    const { updateTodoSort } = this.props;
+    updateTodoSort(sortKeys);
+  }
+
 
   render() {
     const { project, todos, updateProject, deleteProject} = this.props;
     //console.debug("props: " + this.props);
     //this.resetObject();
-
     //this.assignProperties(project);
+
     let prjTodosIdx = project.todos || new Array();
-    let prjTodos = prjTodosIdx.map(function(id,idx){
-      return todos.find(function(todo,idx){
-        return(todo.todoID == id)
+    let prjTodos = prjTodosIdx.map(function (id, idx) {
+      return todos.find(function (todo, idx) {
+        return (todo.todoID == id)
       });
     });
 
@@ -115,31 +143,29 @@ class ProjectEditor extends Project {
             <Icon className="save" onClick={this.handleSave.bind(this)} />
           </div>
           <div className="project-delete">
-            <TetherBasic trigger={<Icon name="delete" />} iconName="delete" >
-              <div className="basic-tether">
+            <TetherConfirm onConfirm={this.handleDelete} iconName="delete" >
                 Delete this project?
-        <Icon className="checkmark" onClick={this.handleDelete.bind(this)} />
-                <Icon className="bug" onClick={this.toggle} />
-              </div>
-            </TetherBasic>
+            </TetherConfirm>
           </div>
         </div>
         <div className="project-Todos">
-          <Menu secondary>
+          <Menu secondary id="todosMenu" >
             <Menu.Item name='tasks' onClick={this.toggleSidebar}>
               <Icon name='tasks' />
               Todos
         </Menu.Item>
-            <Menu.Item name="add" onClick={()=> this.createTodoHdlr(project.projectID)}>
+            <Menu.Item name="add" onClick={() => this.createTodoHdlr(project.projectID)}>
               <Icon name='add' />
               Add new todo
         </Menu.Item>
           </Menu>
-          <Grid padded >
-                <Grid.Row><Grid.Column><div className="todos sortable-todos">{prjTodos.map((todo,idx) => 
+          <Grid padded id="todosGrid" >
+            <Grid.Row><Grid.Column>
+              <div className="todos sortable-todos">
+                {prjTodos.map((todo, idx) =>
                   <TodoCard className="todo" projectID={project.projectID} key={idx} idx={idx} todo={todo} />
-                
-              )}</div></Grid.Column></Grid.Row>
+                )}
+              </div></Grid.Column></Grid.Row>
           </Grid>
 
 
@@ -174,7 +200,7 @@ const stateMap = (state) => ({
   todos: state.todos,
   currentProjectID: state.currentProjectID
 });
-const actionMap = { ...projectActions, createTodo, createTodoAPI };
+const actionMap = { ...projectActions, createTodo,  updateTodoSort };
 ProjectEditor = connect(stateMap, actionMap)(ProjectEditor);  //Wire it up as a Redux container
 // End of Redux wiring
 

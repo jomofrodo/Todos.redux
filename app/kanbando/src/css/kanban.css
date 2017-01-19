@@ -204,4 +204,9 @@ div.basic-tether{background:#C0C0C0;color:white;padding:10px;}
 .project-column-enter {  opacity: 0.01; }
 .project-column-enter.project-column-enter-active {  opacity: 1; transition: opacity 500ms ease-in;}
 .project-column-leave {  opacity: 1; }
-.project-column-leave.project-column-leave-active {  opacity: 0.01;  transition: opacity 300ms ease-in; }
+.project-column-leave.project-column-leave-active {  opacity: 0.01;  transition: transform 500ms ease-in; }
+
+
+/* Todos List */
+div#todosGrid {margin-top:0px;}
+div#todosMenu {margin-bottom:-15px;}
