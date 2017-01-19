@@ -1,24 +1,32 @@
 /* eslint-disable no-undef */
+import _ from 'lodash';
+
 const API = {
   updateProjectSort,
   createTodo, deleteTodo, updateTodo, updateTodoSort
 };
 export default API;
 
+function toArray(obj) {
+  let arr = new Array();
+  Object.keys(obj).forEach(function (k) { arr[k] = obj[k] });
+  debugger;
+  return arr;
+}
 
 function kbdAPI(action, args, cb) {
   let url = `/api/kbd`;
+  let qString;
+  //debugger;
   if (args) {
-    let qString = args.map(function (el, idx) {
-      return "&" + el[0] + "=" + el[1];
+    qString = "";
+     Object.keys(args).forEach(function (k) {
+      qString += "&" + k + "=" + args[k];
     });
-    url += "?pAction=" + action;
-    for (let i = 0; i < qString.length; i++) {
-      url += qString[i]
-    }
-  } else {
-    url = `${url}/${action}`;
   }
+  //url += "?pAction=" + action;
+  url += "/" + action;
+  if (qString) url += "?q=true" + qString;
   return fetch(url, {
     accept: 'application/json',
   }).then(checkStatus)
@@ -28,7 +36,7 @@ function kbdAPI(action, args, cb) {
 
 
 function createTodo(todo) {
-  const action = "UpdateTodo";
+  const action = "CreateTodo";
   return kbdAPI(action, todo);
 }
 function deleteTodo(todo) {

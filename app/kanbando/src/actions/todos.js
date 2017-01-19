@@ -20,6 +20,7 @@ export const UPDATE_TODOS = 'UPDATE_TODOS'
 export const COMPLETE_TODO = 'COMPLETE_TODO'
 export const COMPLETE_ALL = 'COMPLETE_ALL'
 export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
+export const LINK_TODO = 'LINK_TODO'
 export const UNLINK_TODO = 'UNLINK_TODO'
 export const UPDATE_TODO_SORT = 'UPDATE_TODO_SORT';
 
@@ -31,6 +32,9 @@ export function deleteTodo(todoID) {
 	return { type: DELETE_TODO, todoID }
 }
 
+export function linkTodo(todoID, projectID) {
+	return { type: LINK_TODO, todoID, projectID }
+}
 export function unlinkTodo(todoID, projectID) {
 	return { type: UNLINK_TODO, todoID, projectID }
 }
@@ -60,16 +64,16 @@ export function createTodo(projectID, tdName) {
 	let uid = uuid.v4();  //Originally assigned a uid4 randmon id;
 
 	return function (dispatch, getState) {
-		let ret = dispatch(createTodoObj(uid, tdName));
+		const ret = dispatch(createTodoSync(uid, tdName));
 		dispatch(attachTodo(ret.todo, projectID));
-		let todo = ret.todo;
+		//debugger;
+		const todo = ret.todo;
 		API.createTodo(todo)
-			.catch(e => {
+			.then(
+				todo => dispatch(updateTodo(uid, todo))
+			).catch(e => {
 				dispatch(updateNoGo(e));
-			}).then(
-			todo => dispatch(updateTodo(uid, todo)),
-			error => dispatch(updateNoGo(error))
-			);
+			})
 		return todo;
 	}
 }
@@ -77,7 +81,7 @@ export function createTodo(projectID, tdName) {
 //renamed optimistic action creator - this won't be called directly 
 //by the React components anymore, but from our async thunk function
 
-export function createTodoObj(todoID, tdName) {
+export function createTodoSync(todoID, tdName) {
 
 	return {
 		type: CREATE_TODO,
