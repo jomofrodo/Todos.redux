@@ -5,7 +5,7 @@
             <conf name="dev" extends="prod"/> 
         </configurations>
         <dependencies>
-             <dependency org="org.postgresql" name="postgresql" rev="9.4-1206-jdbc42"/>
+             <dependency org="org.postgresql" name="postgresql" rev="9.4-1206-jdbc41"/>
              <dependency org="org.apache.commons" name="commons-lang3" rev="3.4"/>
              <dependency org="commons-io" name="commons-io" rev="2.4"/>
              <dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.7.3"/>

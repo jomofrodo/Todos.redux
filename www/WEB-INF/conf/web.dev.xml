@@ -8,7 +8,7 @@
 
 	<context-param>
 		<param-name>AppName</param-name>
-		<param-value>KanBan Redux (TodosMVC.redux)</param-value>
+		<param-value>KanBanDo Dev</param-value>
 	</context-param>
 	
 	<context-param>
