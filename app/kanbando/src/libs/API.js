@@ -15,7 +15,7 @@ function toArray(obj) {
 }
 
 function kbdAPI(action, args, cb) {
-  let url = `/api/kbd`;
+  let url = `/kbd`;
   let qString;
   //debugger;
   if (args) {
@@ -30,7 +30,12 @@ function kbdAPI(action, args, cb) {
   return fetch(url, {
     accept: 'application/json',
   }).then(checkStatus)
-    .then(parseJSON);
+    .then(function(response){
+      //determine the content type
+      let contentType = response.headers.get("content-type");
+      if(contentType == "json") return parseJSON(response);
+      else return response.text();
+     });
   // .then(cb);
 }
 
@@ -73,6 +78,7 @@ function checkStatus(response) {
     error.status = response.statusText;
     error.response = response;
     console.log(error); // eslint-disable-line no-console
+    response.text().then(text => console.log(text));
     throw error;
   }
 }

@@ -1,2 +1,3 @@
-INSERT INTO todos.ToDo (todoID,tdName,tdDesc,tdComplete)
-VALUES(${todoID},${tdName},${tdDesc},0);
+INSERT INTO kanban.ToDo (tdUUID,tdName,tdDesc,tdComplete)
+VALUES(${tdUUID},${tdName},${tdDesc},0)
+RETURNING todoID;

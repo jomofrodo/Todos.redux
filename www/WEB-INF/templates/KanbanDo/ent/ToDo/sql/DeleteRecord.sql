@@ -1,1 +1,1 @@
-DELETE FROM todos.ToDo WHERE todoID = ${todoID}
+DELETE FROM kanban.ToDo WHERE todoID = ${todoID}

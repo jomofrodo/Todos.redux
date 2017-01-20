@@ -17,6 +17,7 @@ import com.netazoic.ent.RouteAction;
 import com.netazoic.ent.ServENT.RouteEO;
 import com.netazoic.kanban.ent.ToDo;
 import com.netazoic.kanban.ent.Lane.LANE_Route;
+import com.netazoic.kanban.ent.Project;
 import com.netazoic.kanban.ent.Project.PRJ_Route;
 import com.netazoic.kanban.ent.ToDo.TODO_Param;
 import com.netazoic.kanban.ent.ToDo.TODO_Route;
@@ -72,6 +73,7 @@ public class KanbanDo extends Todos {
 
 
 		routeMap.put(TODO_Route.lstdo.route, todoHdlr);
+		routeMap.put(TODO_Route.CreateTodo.route, todoHdlr);
 		routeMap.put(TODO_Route.ctdo.route, todoHdlr);
 		routeMap.put(TODO_Route.rtdo.route, todoHdlr);
 		routeMap.put(TODO_Route.utdo.route, todoHdlr);
@@ -117,6 +119,7 @@ public class KanbanDo extends Todos {
 
 			switch(route){
 			case ctdo:
+			case CreateTodo:
 
 				createToDo(request, response, con);
 				break;
@@ -131,6 +134,18 @@ public class KanbanDo extends Todos {
 				HttpServletResponse response, Connection con)
 						throws ENTException, IOException {
 			ToDo td = new ToDo(con);
+			//Convert an incoming uuid in todoID field
+			String idStr = (String) request.getAttribute(TODO_Param.todoID.name());
+			UUID uuid;
+			if(idStr!=null){
+				try{
+					uuid = UUID.fromString(idStr);
+					td.tdUUID = uuid;
+					request.setAttribute(TODO_Param.todoID.name(), null);
+				}catch(Exception ex){
+					//idStr not a UUID, assume it is a Long
+				}
+			}
 			td.setFieldVals(request);
 			Long id = td.createRecord();
 			td.retrieveRecord();
@@ -151,7 +166,7 @@ public class KanbanDo extends Todos {
 			switch(route){
 			case ctdo:
 
-				createToDo(request, response, con);
+				createProject(request, response, con);
 				break;
 
 			default:
@@ -160,14 +175,26 @@ public class KanbanDo extends Todos {
 
 		}
 
-		private void createToDo(HttpServletRequest request,
+		private void createProject(HttpServletRequest request,
 				HttpServletResponse response, Connection con)
 						throws ENTException, IOException {
-			ToDo td = new ToDo(con);
-			td.setFieldVals(request);
-			Long id = td.createRecord();
-			td.retrieveRecord();
-			ajaxResponse(td.getJSON(),response);
+			Project prj = new Project(con);
+			//Convert an incoming uuid in todoID field
+			String idStr = (String) request.getAttribute(TODO_Param.todoID.name());
+			UUID uuid;
+			if(idStr!=null){
+				try{
+					uuid = UUID.fromString(idStr);
+					prj.prjUUID = uuid;
+					request.setAttribute(TODO_Param.todoID.name(), null);
+				}catch(Exception ex){
+					//idStr not a UUID, assume it is a Long
+				}
+			}
+			prj.setFieldVals(request);
+			Long id = prj.createRecord();
+			prj.retrieveRecord();
+			ajaxResponse(prj.getJSON(),response);
 		}
 	}
 	

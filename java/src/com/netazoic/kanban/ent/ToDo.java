@@ -2,23 +2,26 @@ package com.netazoic.kanban.ent;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import com.netazoic.ent.ENTException;
 
 public class ToDo extends com.netazoic.ent.ENT<ToDo> {
 	
 	public Long todoID;
+	public UUID tdUUID;
 	public String tdName;
 	public String tdDesc;
 	public Boolean tdComplete;
 	
 	public enum TODO_Route{
 		ctdo("ctdo","Create TODO"),
+		CreateTodo("CreateTodo", "CreateTodo alias"),
 		rtdo("rtdo","Retrieve TODO"),
 		utdo("utdo","Update TODO"),
 		dtdo("dtdo","Delete TODO"),
 		lntdo("lntdo","Link TODO"),
-		lstdo("lstdo", "List TODOs");
+		lstdo("lstdo", "List TODOs"),
 		;
 
 		public String route;
@@ -29,20 +32,38 @@ public class ToDo extends com.netazoic.ent.ENT<ToDo> {
 			desc = d;
 		}
 	}
+	public enum TODO_CTP{
+		sql_CreateRecord("/KanbanDo/ent/ToDo/sql/CreateRecord.sql",""),
+		;
+		String ctpPath;
+		String desc;
+		
+		TODO_CTP(String p, String d){
+			ctpPath = p;
+			desc = d;
+		}
+	}
 	
 	public enum TODO_Param{
 		todoID,tdName,tdDesc
 	}
 
-	public ToDo(Connection con) {
-		// TODO Auto-generated constructor stub
+	public ToDo(Connection con) throws ENTException {
+		this.con = con;
+		init();
 	}
 
+	public void init() throws ENTException{
+		super.init();
+	}
+	
 	@Override
-	public void initENT() {
-		this.nit.fld_nitID = "todoID";
-		this.nit.nitTable = "ToDo";
-		this.nit.nitName = "Basic Todo";
+	public void initENT() throws ENTException {
+		nit.FLD_NIT_ID = "todoID";
+		nit.NIT_TABLE = "ToDo";
+		nit.ENTITY_NAME = "Basic Todo";
+		nit.sql_CreateENT = TODO_CTP.sql_CreateRecord.ctpPath;
+		super.initENT();
 	}
 	
 	@Override

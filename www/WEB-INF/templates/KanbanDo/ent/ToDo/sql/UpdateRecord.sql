@@ -1,4 +1,4 @@
-UPDATE todos.ToDo
+UPDATE kanban.ToDo
 SET tdName = ${tdName},
 tdDesc = ${tdDesc},
 tdComplete = ${tdComplete},
