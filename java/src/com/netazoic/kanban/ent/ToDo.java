@@ -12,7 +12,7 @@ public class ToDo extends com.netazoic.ent.ENT<ToDo> {
 	public UUID tdUUID;
 	public String tdName;
 	public String tdDesc;
-	public Boolean tdComplete;
+	public Integer tdComplete;   //1 or 0
 	
 	public enum TODO_Route{
 		ctdo("ctdo","Create TODO"),

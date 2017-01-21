@@ -33,8 +33,8 @@ function kbdAPI(action, args, cb) {
     .then(function(response){
       //determine the content type
       let contentType = response.headers.get("content-type");
-      if(contentType == "json") return parseJSON(response);
-      else return response.text();
+      return parseJSON(response);
+      //else return response.text();
      });
   // .then(cb);
 }

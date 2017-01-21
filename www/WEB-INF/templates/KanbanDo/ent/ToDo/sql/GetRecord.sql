@@ -1,1 +1,1 @@
-SELECT * FROM kanban.ToDo WHERE todoID = ${todoID}
+SELECT * FROM kanban.todo WHERE todoID = ${todoID}

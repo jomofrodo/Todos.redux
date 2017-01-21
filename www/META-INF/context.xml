@@ -1,9 +1,10 @@
- <?xml version="1.0" encoding="UTF-8"?>
- 
-         <Context path="" autoDeploy="true" reloadable="true"             
-            docBase="../../www"  debug="1" crossContext="true">   
+    <!--  tomcat having problems loading this context from this loation.
+    Copy this file to ~tomcat/conf/Catalina/<hostname>/ROOT.xml -->
+    
+     <Context docBase="" path="" autoDeploy="true" reloadable="true"             
+             debug="1" crossContext="true">   
          <Resource name="jdbc/kanbandev" auth="Container" type="javax.sql.DataSource"
 				driverClassName="org.postgresql.Driver" url="jdbc:postgresql://127.0.0.1:5432/kanbandev"
 				username="kanban" password="some-password" maxActive="20" maxIdle="10"
 				maxWait="-1" />         
-         </Context>  
+      </Context>  

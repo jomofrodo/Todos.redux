@@ -39,6 +39,18 @@ export function unlinkTodo(todoID, projectID) {
 	return { type: UNLINK_TODO, todoID, projectID }
 }
 
+export function updateTodoAPI(updatedTodo){
+
+	return function(dispatch,getState){
+		dispatch( updateTodo(updatedTodo));
+		return API.updateTodo(updatedTodo)
+		.then(
+			response => dispatch(updateGolden(response))
+		).catch(e => {
+				dispatch(updateNoGo(e));
+		});
+	}
+}
 export function updateTodo(updatedTodo) {
 	return { type: UPDATE_TODO, updatedTodo }
 }
@@ -65,15 +77,18 @@ export function createTodo(projectID, tdName) {
 
 	return function (dispatch, getState) {
 		const ret = dispatch(createTodoSync(uid, tdName));
-		dispatch(attachTodo(ret.todo, projectID));
+
 		//debugger;
-		const todo = ret.todo;
-		API.createTodo(todo)
+		let todo = ret.todo;
+		todo = API.createTodo(todo)
 			.then(
-				todo => dispatch(updateTodo(uid, todo))
+				function (todo) {
+					dispatch(updateTodo(todo));
+					return dispatch(attachTodo(todo,projectID));
+				}
 			).catch(e => {
 				dispatch(updateNoGo(e));
-			})
+			});
 		return todo;
 	}
 }
@@ -81,12 +96,12 @@ export function createTodo(projectID, tdName) {
 //renamed optimistic action creator - this won't be called directly 
 //by the React components anymore, but from our async thunk function
 
-export function createTodoSync(todoID, tdName) {
+export function createTodoSync(tdUUID, tdName) {
 
 	return {
 		type: CREATE_TODO,
 		todo: {
-			todoID: todoID,
+			tdUUID: tdUUID,
 			tdName: tdName
 		}
 	};
@@ -98,12 +113,12 @@ export function updateTodoSort(sortMap) {
 	return function (dispatch) {
 		dispatch(updateTodoSortOptimistic(sortMap));
 		return API.updateTodoSort(sortMap)
-			.catch(e => {
+		.then(
+			 (sortMap) => dispatch(updateGolden(sortMap))
+		)
+		 .catch(e => {
 				dispatch(updateNoGo(e));
-			}).then(
-			sortMap => dispatch(updateGolden(sortMap)),
-			error => dispatch(updateNoGo(error))
-			);
+			});
 
 	}
 }
@@ -127,3 +142,9 @@ function updateNoGo(error) {
 		msg: "Update Failed:  " + error
 	}
 }
+
+
+
+// WEBPACK FOOTER //
+// src/actions/todos.js
+

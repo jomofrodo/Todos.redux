@@ -34,11 +34,15 @@ export default function todos(state = initialState, action) {
           todo
       )
    case UPDATE_TODO:
-      return state.map(todo =>
-        todo.todoID === action.updatedTodo.todoID ?
-          Object.assign({}, todo, action.updatedTodo) :
-          todo
-      );
+      const idx = state.findIndex( function(todo,idx){
+        if(todo.todoID ) return todo.todoID === action.updatedTodo.todoID;
+        else return todo.tdUUID === action.updatedTodo.tdUUID;
+      }); 
+      const currentTodo = state[idx];
+      const newTD = Object.assign({}, currentTodo, action.updatedTodo);
+      let newState = state.slice(0);
+      newState[idx] = newTD;
+      return newState;
       
     case COMPLETE_TODO:
       return state.map(todo =>

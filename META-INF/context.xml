@@ -1,8 +1,0 @@
-   <!-- would be nice if this worked . . .  Still using ~Tomcat/conf/server.xml  Host context -->
-          <Context path="www" autoDeploy="true" reloadable="true"             
-            docBase="../../www"  debug="1" crossContext="true">   
-         <Resource name="jdbc/kanbandev" auth="Container" type="javax.sql.DataSource"
-				driverClassName="org.postgresql.Driver" url="jdbc:postgresql://127.0.0.1:5432/kanbandev"
-				username="kanban" password="some-password" maxActive="20" maxIdle="10"
-				maxWait="-1" />         
-         </Context>  
