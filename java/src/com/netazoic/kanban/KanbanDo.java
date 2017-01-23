@@ -76,6 +76,7 @@ public class KanbanDo extends Todos {
 		routeMap.put(TODO_Route.CreateTodo.route, todoHdlr);
 		routeMap.put(TODO_Route.ctdo.route, todoHdlr);
 		routeMap.put(TODO_Route.rtdo.route, todoHdlr);
+		routeMap.put(TODO_Route.UpdateTodo.route, todoHdlr);
 		routeMap.put(TODO_Route.utdo.route, todoHdlr);
 		routeMap.put(TODO_Route.dtdo.route, todoHdlr);
 
@@ -120,8 +121,11 @@ public class KanbanDo extends Todos {
 			switch(route){
 			case ctdo:
 			case CreateTodo:
-
 				createToDo(request, response, con);
+				break;
+			case utdo:
+			case UpdateTodo:
+				updateTodo(request, response, con);
 				break;
 
 			default:
@@ -151,9 +155,24 @@ public class KanbanDo extends Todos {
 			td.retrieveRecord();
 			ajaxResponse(td.getJSON(),response);
 		}
+
+		private void updateTodo(HttpServletRequest request,
+				HttpServletResponse response, Connection con) throws ENTException {
+			ToDo td = new ToDo(con);
+			//Convert an incoming uuid in todoID field
+			String idStr = (String) request.getAttribute(TODO_Param.todoID.name());
+
+			td.setFieldVals(request);
+			td.updateRecord();
+			try{
+				ajaxResponse(td.getJSON(),response);
+			}catch(IOException io){
+				throw new ENTException(io);
+			}
+		}
 	}
-	
-	
+
+
 	public class ProjectHandler extends RouteEO{
 
 		@Override
@@ -197,7 +216,7 @@ public class KanbanDo extends Todos {
 			ajaxResponse(prj.getJSON(),response);
 		}
 	}
-	
+
 	public class ChannelHandler extends RouteEO{
 
 		@Override

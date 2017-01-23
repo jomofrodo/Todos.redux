@@ -39,19 +39,21 @@ export function unlinkTodo(todoID, projectID) {
 	return { type: UNLINK_TODO, todoID, projectID }
 }
 
-export function updateTodoAPI(updatedTodo){
+export function updateTodo(updatedTodo) {
 
-	return function(dispatch,getState){
-		dispatch( updateTodo(updatedTodo));
-		return API.updateTodo(updatedTodo)
-		.then(
-			response => dispatch(updateGolden(response))
-		).catch(e => {
-				dispatch(updateNoGo(e));
-		});
+	return function (dispatch, getState) {
+		dispatch(updateTodoSync(updatedTodo));
+		if (updatedTodo.flgASync) {
+			return API.updateTodo(updatedTodo)
+				.then(
+					response => dispatch(updateGolden(response))
+				).catch(e => {
+					dispatch(updateNoGo(e));
+				});
+		}
 	}
 }
-export function updateTodo(updatedTodo) {
+export function updateTodoSync(updatedTodo) {
 	return { type: UPDATE_TODO, updatedTodo }
 }
 export function editTodo(id, text) {
@@ -82,10 +84,10 @@ export function createTodo(projectID, tdName) {
 		let todo = ret.todo;
 		todo = API.createTodo(todo)
 			.then(
-				function (todo) {
-					dispatch(updateTodo(todo));
-					return dispatch(attachTodo(todo,projectID));
-				}
+			function (todo) {
+				dispatch(updateTodo(todo));
+				return dispatch(attachTodo(todo, projectID));
+			}
 			).catch(e => {
 				dispatch(updateNoGo(e));
 			});
@@ -113,10 +115,10 @@ export function updateTodoSort(sortMap) {
 	return function (dispatch) {
 		dispatch(updateTodoSortOptimistic(sortMap));
 		return API.updateTodoSort(sortMap)
-		.then(
-			 (sortMap) => dispatch(updateGolden(sortMap))
-		)
-		 .catch(e => {
+			.then(
+			(sortMap) => dispatch(updateGolden(sortMap))
+			)
+			.catch(e => {
 				dispatch(updateNoGo(e));
 			});
 

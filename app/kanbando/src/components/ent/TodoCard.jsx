@@ -23,7 +23,7 @@ class TodoCard extends Todo{
 				/>
 				<Editable1 name="tdName" id="tdName" flgEditing={todo.flgEditing}
 				onValueClick={()=> updateTodo({todoID,flgEditing:true})}
-				onEdit={(tdName) => updateTodo({tdName,todoID, flgEditing: false})}
+				onEdit={(tdName) => updateTodo({tdName,todoID, flgEditing: false, flgASync: true})}
 				value={todo.tdName}/>
 
 				<Icon name="info" title={todo.todoID} />

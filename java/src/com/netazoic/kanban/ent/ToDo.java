@@ -19,9 +19,10 @@ public class ToDo extends com.netazoic.ent.ENT<ToDo> {
 		CreateTodo("CreateTodo", "CreateTodo alias"),
 		rtdo("rtdo","Retrieve TODO"),
 		utdo("utdo","Update TODO"),
+		UpdateTodo("UpdateTodo","Update TODO alias"),
 		dtdo("dtdo","Delete TODO"),
 		lntdo("lntdo","Link TODO"),
-		lstdo("lstdo", "List TODOs"),
+		lstdo("lstdo", "List TODOs"), 
 		;
 
 		public String route;
@@ -67,13 +68,6 @@ public class ToDo extends com.netazoic.ent.ENT<ToDo> {
 	}
 	
 	@Override
-	public void updateRecord(HashMap<String, Object> paramMap)
-			throws ENTException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public Long createRecord(HashMap<String, Object> paramMap, Connection con)
 			throws ENTException {
 		// TODO Auto-generated method stub
@@ -86,5 +80,9 @@ public class ToDo extends com.netazoic.ent.ENT<ToDo> {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
+
 
 }
