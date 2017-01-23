@@ -24,9 +24,8 @@ class ProjectBoard extends Ent {
 
     handleCreateProject() {
         const {createProject, setCurrentProject } = this.props;
-        const projectAction = createProject({ prjName: 'New project' });
-        const project = projectAction.project;
         debugger;
+        const project = createProject({ prjName: 'New project' });
         setCurrentProject(project.projectID);
         //const div = ReactDOM.findDOMNode(project);
         //debugger;
@@ -36,10 +35,10 @@ class ProjectBoard extends Ent {
         //const {updateProjectSort} = this.props;
         const cb = this.updateProjectSort;
         $(".sortable-project").sortable({		// jquery-ui sortable
-            update: function(evt, ui) {
+            update: function (evt, ui) {
                 const elms = ui.item.parent().find(".project");
                 let currentSort = "";
-                currentSort = elms.map(function(el, idx) {
+                currentSort = elms.map(function (el, idx) {
                     return $(this).attr("data-idx");
                 });
                 //convert React/jQuery monstrosity to POJ
@@ -67,6 +66,7 @@ class ProjectBoard extends Ent {
     render() {
 
         const {projects, currentProjectID} = this.props;
+        debugger;
         //const { sidebarVisible } = this.state;
         //let sidebarVisible = currentProjectID ? true : false;
         let sidebarVisible = false;
@@ -151,10 +151,14 @@ class ProjectBoard extends Ent {
 
 
 // Redux wiring
-const stateMap = (state) => ({
-    projects: state.projects,
-    currentProjectID: state.currentProjectID
-});
+const stateMap = function (state) {
+    const stateMap = 
+    {
+        projects: state.get('projects'),
+        currentProjectID: state.get('currentProjectID')
+    };
+    return stateMap;
+}
 const actionMap = { createProject, updateProjectSort, setCurrentProject };
 ProjectBoard = connect(stateMap, actionMap)(ProjectBoard);  //Wire it up as a Redux container
 // End of Redux wiring

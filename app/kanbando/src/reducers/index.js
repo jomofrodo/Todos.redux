@@ -1,9 +1,11 @@
-import { combineReducers } from 'redux'
+//import { combineReducers } from 'redux'
+import { combineReducers } from 'redux-immutable'
 import todos from './todos'
 import lanes from './lanes'
 import projects from './projects'
 import notes from './notes'
 import * as appTypes from '../actions/app';
+
 
 const appReducer = combineReducers({
 	todos, lanes, projects, notes, currentProjectID

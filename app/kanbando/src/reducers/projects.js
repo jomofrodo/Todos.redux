@@ -1,14 +1,19 @@
 import update from 'immutability-helper';
 import * as types from '../actions/projects';
+import { List, Map } from 'immutable';
 
-const initialState = [];
+const initialState = Map({});
 
 export default function projects(state = initialState, action) {
 	switch (action.type) {
 		case types.CREATE_PROJECT:
-			return [...state, action.project];
+			//return [...state, action.project];
+			const {type, ...newProject}  = action;
+			return state.set(newProject.projectID,newProject);
 
 		case types.UPDATE_PROJECT:
+			return state.set(action.projectID,action.project);
+			/*
 			return state.map((project) => {
 				//debugger;
 				if(project.projectID === action.projectID) {
@@ -18,6 +23,7 @@ export default function projects(state = initialState, action) {
 
 				return project;
 			});
+			*/
 		case types.ATTACH_TO_PROJECT:
 			return state.map((project) => {
 				//debugger;

@@ -24,7 +24,7 @@ class KanBanBoard extends React.Component {
 
 export default compose(
   connect(state => ({
-    lanes: state.lanes?state.lanes:{}
+    lanes: state.get('lanes')
   }), {
     createLane
   }),

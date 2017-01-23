@@ -1,12 +1,12 @@
 import { CREATE_TODO, DELETE_TODO, EDIT_TODO, UPDATE_TODO, COMPLETE_TODO, COMPLETE_ALL, CLEAR_COMPLETED } from '../actions/todos'
+import { Map, List } from 'immutable';
 
-const initialState = [
+const initialState = List(Map(
   {
     text: 'Use Redux',
     completed: false,
     todoID: 0
-  }
-]
+}));
 
 export default function todos(state = initialState, action) {
   switch (action.type) {

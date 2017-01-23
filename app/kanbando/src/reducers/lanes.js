@@ -1,7 +1,8 @@
 import update from 'immutability-helper';
 import * as types from '../actions/lanes';
+import {Map} from 'immutable';
 
-const initialState = [];
+const initialState = Map({});
 
 export default function lanes(state = initialState, action) {
   switch (action.type) {

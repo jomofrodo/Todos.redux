@@ -1,16 +1,15 @@
 import uuid from 'node-uuid';
 import API from '../libs/API';
+import {fromJS} from 'immutable';
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
 export function createProject(project) {
   return {
     type: CREATE_PROJECT,
-    project: {
       projectID: uuid.v4(),
       notes: project.notes || [],
       todos: project.todos || [],
       ...project
-    }
   };
 };
 
